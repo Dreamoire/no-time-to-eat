@@ -11,6 +11,7 @@
 	justify-content: center;
 	gap: 16px;
 	height: 100%;
+	transition: all .15s ease;
 }
 
 .search-switch input[type="checkbox"] {
@@ -24,6 +25,8 @@
 	font-size: 28px;
 	font-weight: 700;
 	letter-spacing: 1.25px;
+	width: 120px;
+	text-align: start;
 }
 
 .search-switch label {
