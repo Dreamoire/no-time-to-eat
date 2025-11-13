@@ -1,6 +1,6 @@
-.recipes-cards{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 50px;
-    justify-content: center;
+.recipes-cards {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 50px;
+	justify-content: center;
 }
