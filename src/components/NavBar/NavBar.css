@@ -1,0 +1,32 @@
+.global-nav {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1rem 2rem;
+	background-color: var(--bg-color);
+	color: var(--text-color-blk);
+	font-family: var(--title-font);
+}
+
+.nav-logo {
+	display: inline-flex;
+	align-items: center;
+}
+
+.logo-image {
+	height: 40px;
+	width: auto;
+}
+
+.nav-links {
+	display: flex;
+	gap: 1.5rem;
+	list-style: none;
+}
+
+.nav-links a {
+	text-decoration: none;
+	color: var(--text-color-blk);
+	font-weight: 600;
+	font-family: var(--title-font);
+}
