@@ -3,14 +3,24 @@ import type { ChangeEvent } from "react";
 import "../styles/ingredient_filter.css";
 
 function IngredientFilter() {
-	const [value, setValue] = useState<number>(50);
-	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-		setValue(Number(e.target.value));
+	const [time, setTime] = useState<number>(50);
+	const selectedTime = (e: ChangeEvent<HTMLInputElement>) => {
+		setTime(Number(e.target.value));
 	};
 
-	const [calorie, setCalorie] = useState<number>(50);
-	const calorieSelected = (e: ChangeEvent<HTMLInputElement>) => {
+	const [ing, setNbrIng] = useState<number>(2);
+	const selectedIng = (e: ChangeEvent<HTMLInputElement>) => {
+		setNbrIng(Number(e.target.value));
+	};
+
+	const [calorie, setCalorie] = useState<number>(500);
+	const selectedCalorie = (e: ChangeEvent<HTMLInputElement>) => {
 		setCalorie(Number(e.target.value));
+	};
+
+	const [compatibility, setCompatibility] = useState<number>(50);
+	const selectedCompatibility = (e: ChangeEvent<HTMLInputElement>) => {
+		setCompatibility(Number(e.target.value));
 	};
 
 	const [open, setOpen] = useState(false);
@@ -22,22 +32,28 @@ function IngredientFilter() {
 		<>
 			<div className="recipe-filter">
 				<button type="button" onClick={toggleMenu} className="button-filter">
-					<img src="src\assets\images\filter.svg" alt="" width="20px" />
+					<img src="src\assets\images\filter.svg" alt="" />
 				</button>
 				{open && (
 					<div className="input-filter">
-						<label htmlFor="time">Temps de préparation : {value} min</label>
+						<label htmlFor="time">Temps de préparation : {time} min</label>
 						<input
 							type="range"
 							min="0"
 							max="240"
 							step="1"
-							value={value}
-							onChange={handleChange}
+							value={time}
+							onChange={selectedTime}
 							className="stick-filter"
 						/>
 						<div className="input-form">
-							<input type="number" min="0" className="input" />
+							<input
+								type="number"
+								min="0"
+								className="input"
+								value={ing}
+								onChange={selectedIng}
+							/>
 							<label htmlFor="number">Nombre d'ingrédients</label>
 						</div>
 						<div className="input-form">
@@ -47,6 +63,8 @@ function IngredientFilter() {
 								max="100"
 								step="10"
 								className="input"
+								value={compatibility}
+								onChange={selectedCompatibility}
 							/>
 							<label htmlFor="number">Compatibilité en %</label>
 						</div>
@@ -57,7 +75,7 @@ function IngredientFilter() {
 							max="1000"
 							step="1"
 							value={calorie}
-							onChange={calorieSelected}
+							onChange={selectedCalorie}
 							className="stick-filter"
 						/>
 					</div>

@@ -3,9 +3,14 @@ import type { ChangeEvent } from "react";
 import "../styles/recipe_filter.css";
 
 function RecipeFilter() {
-	const [value, setValue] = useState<number>(50);
-	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-		setValue(Number(e.target.value));
+	const [time, setTime] = useState<number>(50);
+	const selectedTime = (e: ChangeEvent<HTMLInputElement>) => {
+		setTime(Number(e.target.value));
+	};
+
+	const [ing, setNbrIng] = useState<number>(2);
+	const selectedIng = (e: ChangeEvent<HTMLInputElement>) => {
+		setNbrIng(Number(e.target.value));
 	};
 
 	const [open, setOpen] = useState(false);
@@ -17,22 +22,28 @@ function RecipeFilter() {
 		<>
 			<div className="recipe-filter">
 				<button type="button" onClick={toggleMenu} className="button-filter">
-					<img src="src\assets\images\filter.svg" alt="" width="20px" />
+					<img src="src\assets\images\filter.svg" alt="" />
 				</button>
 				{open && (
 					<div className="input-filter">
-						<label htmlFor="time">Temps de préparation : {value} min</label>
+						<label htmlFor="time">Temps de préparation : {time} min</label>
 						<input
 							type="range"
 							min="0"
 							max="240"
-							step="5"
-							value={value}
-							onChange={handleChange}
+							step="1"
+							value={time}
+							onChange={selectedTime}
 							className="stick-filter"
 						/>
 						<div className="input-form">
-							<input type="number" min="0" className="input" />
+							<input
+								type="number"
+								min="0"
+								className="input"
+								value={ing}
+								onChange={selectedIng}
+							/>
 							<label htmlFor="number">Nombre d'ingrédients</label>
 						</div>
 					</div>
