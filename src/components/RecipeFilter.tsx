@@ -30,7 +30,7 @@ function RecipeFilter() {
 						<input
 							type="range"
 							min="0"
-							max="240"
+							max="120"
 							step="1"
 							value={time}
 							onChange={selectedTime}
