@@ -5,7 +5,11 @@ export default function NavBar() {
 	return (
 		<nav className="global-nav">
 			<a href="/" className="nav-logo">
-				<img src="/src/assets/images/logo.png" alt="logo" />
+				<img
+					src="/src/assets/images/logo.png"
+					alt="logo"
+					className="logo-image"
+				/>
 			</a>
 			<ul className="nav-links">
 				<li>

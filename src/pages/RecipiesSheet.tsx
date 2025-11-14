@@ -1,33 +1,76 @@
+import { useEffect, useState } from "react";
+import favoriteIcon from "../assets/images/favoris.png";
+import printerIcon from "../assets/images/printer.png";
+import FavoriteButton from "../components/FavoriteButton";
 import "../styles/RecipiesSheet.css";
 
 export default function RecipiesSheet() {
+	const [meal, setMeal] = useState(null);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState(null);
+
+	const recipeId = 52963;
+
+	useEffect(() => {
+		async function fetchRecipe() {
+			try {
+				const response = await fetch(
+					`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${recipeId}`,
+				);
+
+				if (!response.ok) {
+					throw new Error("Erreur API");
+				}
+
+				const data = await response.json();
+				setMeal(data.meals[0]);
+			} catch (err) {
+				setError(err.message);
+			} finally {
+				setLoading(false);
+			}
+		}
+
+		fetchRecipe();
+	}, []);
+
+	// ------ LOADING ------
+	if (loading) {
+		return <p className="loading">Chargement...</p>;
+	}
+
+	// ------ ERROR ------
+	if (error || !meal) {
+		return <p className="error">Impossible de charger la recette.</p>;
+	}
+
+	// ------ EXTRACT INGREDIENTS ------
+	const ingredients = [];
+	for (let i = 1; i <= 20; i++) {
+		const ing = meal[`strIngredient${i}`];
+		const measure = meal[`strMeasure${i}`];
+
+		if (ing && ing.trim() !== "") {
+			ingredients.push(`${ing} - ${measure}`);
+		}
+	}
+
 	return (
 		<main className="recipe-sheet">
 			<header className="recipe-header">
 				<section className="recipe-hero">
 					<section className="recipe-hero-text">
 						<p>recette</p>
-						<h1>Shakshuka</h1>
+						<h1>{meal.strMeal}</h1>
 
-						<section>
-							<button
-								type="button"
-								className="icon-button"
-								aria-label="add to favorites"
-								title="Ajouter aux favoris"
-							>
-								<span className="icon-star" aria-hidden="true">
-									*
-								</span>
+						<section className="recipe-buttons">
+							<button type="button" className="icon-button" title="Favoris">
+								<img src={favoriteIcon} alt="Ajouter aux favoris" />
 							</button>
 
-							<button
-								type="button"
-								className="icon-button"
-								aria-label="copy recipe"
-								title="Copier"
-							/>
-
+							<button type="button" className="icon-button" title="Imprimer">
+								<img src={printerIcon} alt="Imprimer la recette" />
+							</button>
 							<span>4856 kcal / 100g</span>
 						</section>
 
@@ -37,61 +80,34 @@ export default function RecipiesSheet() {
 						</ul>
 					</section>
 
-					<figure>
-						<img
-							src="/src/assets/images/header_image_2.jpg"
-							alt="Shakshuka dans une poêle"
-						/>
+					<figure className="recipe-hero-figure">
+						<img src={meal.strMealThumb} alt={meal.strMeal} />
 					</figure>
 				</section>
 			</header>
 
 			<section>
+				{/* INGREDIENTS */}
 				<aside className="ingredients-panel">
 					<h2>Ingrédients</h2>
+
 					<ul>
-						<li>800g de tomates</li>
-						<li>250g de poivrons rouges</li>
-						<li>1 oignon</li>
-						<li>4 gousses d&apos;ail émincées</li>
-						<li>1 c. à café de cumin</li>
-						<li>piment d&apos;Espelette</li>
-						<li>8 gros œufs bio</li>
-						<li>1/2 botte de coriandre émincée</li>
-						<li>1/2 botte de persil émincé</li>
-						<li>huile d&apos;olive</li>
-						<li>sel, fleur de sel</li>
-						<li>pour servir</li>
-						<li>4 pains pita</li>
+						{ingredients.map((item) => (
+							<li key={item}>{item}</li>
+						))}
 					</ul>
 				</aside>
 
+				{/* PREPARATION */}
 				<article className="preparation-panel">
 					<h2>Préparation</h2>
 
-					<p>
-						Hachez les tomates, les poivrons et l&apos;oignon. Versez un filet
-						d&apos;huile d&apos;olive dans une grande poêle et faites-la
-						chauffer sur feu moyen avec les tomates, les poivrons et
-						l&apos;oignon hachés. Ajoutez les gousses d&apos;ail émincées et le
-						piment d&apos;Espelette. Laissez cuire 20 minutes en remuant.
-					</p>
-
-					<p>
-						Mixez la moitié de la préparation avec un mixeur plongeant et
-						remettez-la dans la poêle.
-					</p>
-
-					<p>
-						Cassez les œufs dans la poêle. Baissez sur feu doux et poursuivez la
-						cuisson 7 à 10 minutes.
-					</p>
-
-					<p>
-						Parsemez d&apos;herbes émincées, d&apos;un peu de fleur de sel et de
-						piment d&apos;Espelette. Dégustez chaud en trempant le pain pita
-						dans la sauce.
-					</p>
+					{meal.strInstructions
+						.split(/\r?\n/)
+						.filter((p) => p.trim() !== "")
+						.map((p) => (
+							<p key={p.slice(0, 20)}>{p}</p>
+						))}
 				</article>
 			</section>
 
