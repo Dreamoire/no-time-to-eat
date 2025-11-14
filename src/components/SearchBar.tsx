@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "../styles/SearchBar.css";
+import { FilteredIngredients } from "./FilteredIngredients";
+import { SelectedIngredients } from "./SelectedIngredients";
 
 export type Meal = {
 	idMeal: string;
@@ -34,33 +36,21 @@ export type Meal = {
 	strIngredient19: string | null;
 	strIngredient20: string | null;
 
-	// Measures 1–20
-	strMeasure1: string | null;
-	strMeasure2: string | null;
-	strMeasure3: string | null;
-	strMeasure4: string | null;
-	strMeasure5: string | null;
-	strMeasure6: string | null;
-	strMeasure7: string | null;
-	strMeasure8: string | null;
-	strMeasure9: string | null;
-	strMeasure10: string | null;
-	strMeasure11: string | null;
-	strMeasure12: string | null;
-	strMeasure13: string | null;
-	strMeasure14: string | null;
-	strMeasure15: string | null;
-	strMeasure16: string | null;
-	strMeasure17: string | null;
-	strMeasure18: string | null;
-	strMeasure19: string | null;
-	strMeasure20: string | null;
-
 	strSource: string | null;
 	strImageSource: string | null;
 	strCreativeCommonsConfirmed: string | null;
 	dateModified: string | null;
 };
+
+export type Ingredient = {
+	idIngredient: string;
+	strIngredient: string;
+	strDescription: string | null;
+	strThumb: string | null;
+	strType: string | null;
+};
+
+export type SearchType = "recipe" | "ingredient";
 
 async function loadRecipes() {
 	const response = await fetch(
@@ -69,15 +59,29 @@ async function loadRecipes() {
 	const result = await response.json();
 	return result.meals as Meal[];
 }
+
+async function loadIngredients() {
+	const response = await fetch(
+		"https://www.themealdb.com/api/json/v1/1/list.php?i=list",
+	);
+	const result = await response.json();
+	return result.meals as Ingredient[];
+}
+
 export function SearchBar() {
+	const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+	const [selectedIngredients, setSelectedIngredients] = useState<Ingredient[]>(
+		[],
+	);
+	const [meals, setMeals] = useState<Meal[]>([]);
 	useEffect(() => {
 		loadRecipes().then((mealsFromApi) => setMeals(mealsFromApi));
+		loadIngredients().then((ingredientsFromAPI) =>
+			setIngredients(ingredientsFromAPI),
+		);
 	}, []);
 
-	const [meals, setMeals] = useState<Meal[]>([]);
-	const [searchType, setSearchType] = useState<"recipe" | "ingredient">(
-		"recipe",
-	);
+	const [searchType, setSearchType] = useState<SearchType>("ingredient");
 	const [search, setSearch] = useState<string>("");
 
 	const filteredMeals =
@@ -86,6 +90,19 @@ export function SearchBar() {
 			: meals.filter((m) =>
 					m.strMeal?.toLowerCase()?.includes(search?.toLowerCase()),
 				);
+
+	const filteredIngredients = useMemo(() => {
+		if (search.trim() === "") {
+			return [];
+		}
+
+		const filter = ingredients.filter((i) => {
+			return i.strIngredient.toLowerCase().includes(search.toLowerCase());
+		});
+
+		return filter;
+	}, [search, ingredients]);
+
 	return (
 		<div>
 			<div className="search">
@@ -104,7 +121,7 @@ export function SearchBar() {
 						checked={searchType === "ingredient"}
 						id="switch"
 						name="switch"
-						onClick={() =>
+						onChange={() =>
 							setSearchType(searchType !== "recipe" ? "recipe" : "ingredient")
 						}
 					/>
@@ -129,11 +146,43 @@ export function SearchBar() {
 					</button>
 				</div>
 			</div>
-			<ul>
-				{filteredMeals.map((m) => (
-					<li key={m.idMeal}>{m.strMeal}</li>
-				))}
-			</ul>
+			<div
+				style={{
+					display: "flex",
+					flexDirection: "column",
+					gap: 12,
+				}}
+			>
+				{searchType === "recipe"
+					? filteredMeals.map((m) => <li key={m.idMeal}>{m.strMeal}</li>)
+					: null}
+
+				<FilteredIngredients
+					searchType={searchType}
+					filteredIngredients={filteredIngredients}
+					selectedIngredients={selectedIngredients}
+					onSelectIngredient={(i) => {
+						// On vérifie que l'ingrédient n'ait pas déjà été ajouté
+						const hasAlreadyBeenAdded = selectedIngredients.some(
+							(selectedIngredient) =>
+								i.idIngredient === selectedIngredient.idIngredient,
+						);
+
+						// Si l'ingrédient a déjà été select, on ne l'ajoute pas (sinon il sera en double)
+						if (!hasAlreadyBeenAdded) {
+							setSelectedIngredients([...selectedIngredients, i]);
+						}
+
+						setSearch("");
+					}}
+				/>
+
+				<SelectedIngredients
+					onRemoveIngredient={() => {}}
+					selectedIngredients={selectedIngredients}
+					searchType={searchType}
+				/>
+			</div>
 		</div>
 	);
 }
