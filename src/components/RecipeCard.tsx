@@ -36,7 +36,7 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
 						onClick={() => setIsFavorite(!isFavorite)}
 						aria-pressed={isFavorite}
 						aria-label={
-							isFavorite ? "Retirer des favoris" : "Ajouter aux favoris"
+							isFavorite ? "Remove from favorites" : "Add to favorites"
 						}
 						className="recipe-card-favorites"
 					>

@@ -36,6 +36,10 @@ hr {
 	background-color: #dfd6cd;
 }
 
+.recipe-card-button:hover{
+	opacity: 0.8;
+}
+
 .recipe-card-picture {
 	width: 276px;
 	height: 138px;
