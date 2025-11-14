@@ -1,13 +1,19 @@
 import { useEffect, useState } from "react";
 import favoriteIcon from "../assets/images/favoris.png";
 import printerIcon from "../assets/images/printer.png";
-import FavoriteButton from "../components/FavoriteButton";
 import "../styles/RecipiesSheet.css";
 
+// Type minimal pour le repas récupéré depuis l'API
+type Meal = {
+	strMeal: string;
+	strMealThumb: string;
+	strInstructions: string;
+} & Record<string, string | null>;
+
 export default function RecipiesSheet() {
-	const [meal, setMeal] = useState(null);
-	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState(null);
+	const [meal, setMeal] = useState<Meal | null>(null);
+	const [loading, setLoading] = useState<boolean>(true);
+	const [error, setError] = useState<string | null>(null);
 
 	const recipeId = 52963;
 
@@ -22,10 +28,14 @@ export default function RecipiesSheet() {
 					throw new Error("Erreur API");
 				}
 
-				const data = await response.json();
+				const data = (await response.json()) as { meals: Meal[] };
 				setMeal(data.meals[0]);
 			} catch (err) {
-				setError(err.message);
+				if (err instanceof Error) {
+					setError(err.message);
+				} else {
+					setError("Erreur inconnue");
+				}
 			} finally {
 				setLoading(false);
 			}
@@ -34,24 +44,21 @@ export default function RecipiesSheet() {
 		fetchRecipe();
 	}, []);
 
-	// ------ LOADING ------
 	if (loading) {
 		return <p className="loading">Chargement...</p>;
 	}
 
-	// ------ ERROR ------
 	if (error || !meal) {
 		return <p className="error">Impossible de charger la recette.</p>;
 	}
 
-	// ------ EXTRACT INGREDIENTS ------
-	const ingredients = [];
-	for (let i = 1; i <= 20; i++) {
+	const ingredients: string[] = [];
+	for (let i = 1; i <= 20; i += 1) {
 		const ing = meal[`strIngredient${i}`];
 		const measure = meal[`strMeasure${i}`];
 
 		if (ing && ing.trim() !== "") {
-			ingredients.push(`${ing} - ${measure}`);
+			ingredients.push(`${ing} - ${measure ?? ""}`.trim());
 		}
 	}
 
@@ -67,6 +74,8 @@ export default function RecipiesSheet() {
 							<button type="button" className="icon-button" title="Favoris">
 								<img src={favoriteIcon} alt="Ajouter aux favoris" />
 							</button>
+
+							{/* ClassNames temporaires pour les boutons — ici viendra ensuite le bouton Print / Imprimer */}
 
 							<button type="button" className="icon-button" title="Imprimer">
 								<img src={printerIcon} alt="Imprimer la recette" />
@@ -87,7 +96,6 @@ export default function RecipiesSheet() {
 			</header>
 
 			<section>
-				{/* INGREDIENTS */}
 				<aside className="ingredients-panel">
 					<h2>Ingrédients</h2>
 
@@ -98,15 +106,14 @@ export default function RecipiesSheet() {
 					</ul>
 				</aside>
 
-				{/* PREPARATION */}
 				<article className="preparation-panel">
 					<h2>Préparation</h2>
 
 					{meal.strInstructions
-						.split(/\r?\n/)
+						?.split(/\r?\n/)
 						.filter((p) => p.trim() !== "")
 						.map((p) => (
-							<p key={p.slice(0, 20)}>{p}</p>
+							<p key={p}>{p}</p>
 						))}
 				</article>
 			</section>
