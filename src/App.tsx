@@ -9,12 +9,7 @@ export default function App() {
 			<Outlet />
 			{/* Lien temporaire vers la page RecipiesSheet */}
 			<div>
-				<a
-					href="/recipies-sheet"
-					style={{ fontSize: "22px", fontWeight: "600" }}
-				>
-					Voir la recette
-				</a>
+				<a href="/recipe/1">Voir la recette</a>
 			</div>
 		</>
 	);

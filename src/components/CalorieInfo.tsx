@@ -17,6 +17,9 @@ type NutritionResponse = {
 
 const CALORIE_API_KEY = import.meta.env.VITE_CALORIE_NINJA_KEY as string;
 
+// La boucle va jusqu’à 20 car l’API TheMealDB fournit
+// 20 emplacements possibles: strIngredient1 à strIngredient20.
+
 function extractIngredients(meal: Meal): string[] {
 	const list: string[] = [];
 

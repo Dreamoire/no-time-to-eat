@@ -1,40 +1,41 @@
 import { useEffect, useRef, useState } from "react";
+import { useParams } from "react-router";
+import { useReactToPrint } from "react-to-print";
 import cookingTimeIcon from "../assets/images/cooking-time.png";
 import eatingPersonIcon from "../assets/images/eating-person.png";
 import favoriteIcon from "../assets/images/favoris.png";
 import printerIcon from "../assets/images/printer.png";
 import CalorieInfo from "../components/CalorieInfo";
-import PrintRecipeButton from "../components/PrintRecipeButton";
-import "../styles/RecipiesSheet.css";
+import type { Meal } from "../types/meal";
 
-type Meal = {
-	strMeal: string;
-	strMealThumb: string;
-	strInstructions: string;
-} & Record<string, string | null>;
+import "../styles/RecipeSheet.css";
 
-export default function RecipiesSheet() {
+export default function RecipeSheet() {
 	const [meal, setMeal] = useState<Meal | null>(null);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
-
-	const recipeId = 52963;
+	const { id } = useParams();
 
 	const printRef = useRef<HTMLDivElement | null>(null);
+
+	const handlePrint = useReactToPrint({
+		contentRef: printRef,
+		documentTitle: "Recipe",
+	});
 
 	useEffect(() => {
 		const fetchRecipe = async () => {
 			try {
 				const response = await fetch(
-					`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${recipeId}`,
+					`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`,
 				);
 
 				if (!response.ok) {
 					throw new Error("Erreur API");
 				}
 
-				const data = (await response.json()) as { meals: Meal[] };
-				setMeal(data.meals[0]);
+				const mealData = (await response.json()) as { meals: Meal[] };
+				setMeal(mealData.meals[0]);
 			} catch (err) {
 				if (err instanceof Error) {
 					setError(err.message);
@@ -47,7 +48,7 @@ export default function RecipiesSheet() {
 		};
 
 		void fetchRecipe();
-	}, []);
+	}, [id]);
 
 	if (loading) {
 		return <p className="loading">Loading...</p>;
@@ -85,12 +86,14 @@ export default function RecipiesSheet() {
 									>
 										<img src={favoriteIcon} alt="Add to favorites" />
 									</button>
-
-									<PrintRecipeButton
-										printRef={printRef}
-										icon={printerIcon}
+									<button
+										type="button"
+										onClick={handlePrint}
 										className="icon-button icon-button--primary icon-button--print"
-									/>
+										title="Print"
+									>
+										<img src={printerIcon} alt="Print the recipe" />
+									</button>
 								</div>
 
 								<CalorieInfo meal={meal} className="recipe-kcal-styled" />
