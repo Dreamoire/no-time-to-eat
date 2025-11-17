@@ -7,6 +7,7 @@ function RecipeFilter() {
 	const testRecipes = [
 		{
 			titre: "Spaghetti Bolognaise",
+			strCategory: "Pasta",
 			tempsPreparation: 30,
 			ingredients: [
 				"Spaghetti",
@@ -22,6 +23,7 @@ function RecipeFilter() {
 		},
 		{
 			titre: "Salade César",
+			strCategory: "Starter",
 			tempsPreparation: 20,
 			ingredients: [
 				"Laitue romaine",
@@ -35,6 +37,7 @@ function RecipeFilter() {
 		},
 		{
 			titre: "Omelette aux champignons",
+			strCategory: "Miscellaneous",
 			tempsPreparation: 15,
 			ingredients: ["Œufs", "Champignons", "Beurre", "Sel", "Poivre"],
 			preparation:
@@ -42,6 +45,7 @@ function RecipeFilter() {
 		},
 		{
 			titre: "Poulet rôti",
+			strCategory: "Chicken",
 			tempsPreparation: 90,
 			ingredients: [
 				"Poulet entier",
@@ -55,6 +59,7 @@ function RecipeFilter() {
 		},
 		{
 			titre: "Soupe de légumes",
+			strCategory: "Vegan",
 			tempsPreparation: 40,
 			ingredients: [
 				"Carottes",
@@ -68,6 +73,7 @@ function RecipeFilter() {
 		},
 		{
 			titre: "Quiche Lorraine",
+			strCategory: "Pork",
 			tempsPreparation: 50,
 			ingredients: [
 				"Pâte brisée",
@@ -81,6 +87,7 @@ function RecipeFilter() {
 		},
 		{
 			titre: "Tarte aux pommes",
+			strCategory: "Dessert",
 			tempsPreparation: 60,
 			ingredients: ["Pâte feuilletée", "Pommes", "Sucre", "Cannelle", "Beurre"],
 			preparation:
@@ -88,6 +95,7 @@ function RecipeFilter() {
 		},
 		{
 			titre: "Ratatouille",
+			strCategory: "Vegan",
 			tempsPreparation: 60,
 			ingredients: [
 				"Aubergines",
@@ -102,6 +110,7 @@ function RecipeFilter() {
 		},
 		{
 			titre: "Crêpes",
+			strCategory: "Dessert",
 			tempsPreparation: 25,
 			ingredients: ["Farine", "Œufs", "Lait", "Beurre", "Sucre"],
 			preparation:
@@ -109,6 +118,7 @@ function RecipeFilter() {
 		},
 		{
 			titre: "Pizza Margherita",
+			strCategory: "Vegetarian",
 			tempsPreparation: 45,
 			ingredients: [
 				"Pâte à pizza",
@@ -156,6 +166,7 @@ function RecipeFilter() {
 					<div className={`input-filter ${closing ? "closing" : "open"}`}>
 						<label htmlFor="time">Temps de préparation : {time} min</label>
 						<input
+							id="time"
 							type="range"
 							min="0"
 							max="120"
@@ -171,21 +182,16 @@ function RecipeFilter() {
 								onChange={selectedMeal}
 								className="input"
 							>
-								<option value="">-- Chose --</option>
-								<option value="Beef">Beef</option>
-								<option value="Breakfast">Breakfast</option>
-								<option value="Chicken">Chicken</option>
-								<option value="Dessert">Dessert</option>
-								<option value="Goat">Goat</option>
-								<option value="Lamb">Lamb</option>
-								<option value="Miscellaneous">Miscellaneous</option>
-								<option value="Pasta">Pasta</option>
-								<option value="Pork">Pork</option>
-								<option value="Seafood">Seafood</option>
-								<option value="Side">Side</option>
-								<option value="Starter">Starter</option>
-								<option value="Vegan">Vegan</option>
-								<option value="Vegetarian">Vegetarian</option>
+								{testRecipes.map(
+									(recipe, index) =>
+										testRecipes.findIndex(
+											(r) => r.strCategory === recipe.strCategory,
+										) === index && (
+											<option key={recipe.titre} value={recipe.strCategory}>
+												{recipe.strCategory}
+											</option>
+										),
+								)}
 							</select>
 							<label htmlFor="meal">Meal's type</label>
 						</div>
@@ -194,7 +200,7 @@ function RecipeFilter() {
 			</div>
 			{/* La map suivante est seulement pour verifié la fontionalité du filtre, non défénitive */}
 			{testRecipes.map((recipe) =>
-				recipe.tempsPreparation <= time ? (
+				recipe.tempsPreparation <= time && recipe.strCategory === meal ? (
 					<div key={recipe.titre}>{recipe.titre}</div>
 				) : (
 					""
