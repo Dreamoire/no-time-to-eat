@@ -1,6 +1,7 @@
 import { useOutletContext } from "react-router";
 import RecipeCard from "../components/RecipeCard";
 import type { RecipeType } from "../types/recipe";
+import "../styles/Favorite.css";
 
 export interface Context {
 	favoriteIds: string[];
@@ -17,7 +18,7 @@ export default function Favorite() {
 	);
 	return (
 		<>
-			<section>
+			<section className="favorites-recipes-cards">
 				{favoritesRecipes.map((recipe) => {
 					const isFavorite = favoriteIds.includes(recipe.idMeal);
 					return (
