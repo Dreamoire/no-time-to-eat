@@ -20,7 +20,6 @@ export default function RecipiesSheet() {
 
 	const recipeId = 52963;
 
-	// ref для печати только блока рецепта
 	const printRef = useRef<HTMLDivElement | null>(null);
 
 	useEffect(() => {
@@ -70,7 +69,6 @@ export default function RecipiesSheet() {
 
 	return (
 		<main className="recipe-sheet">
-			{/* Печатается только этот блок */}
 			<div ref={printRef}>
 				<header className="recipe-header">
 					<section className="recipe-hero">
