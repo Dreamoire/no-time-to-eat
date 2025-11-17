@@ -1,24 +1,32 @@
-import { useState } from "react";
+import { useOutletContext } from "react-router";
 import RecipeCard from "../components/RecipeCard";
-import type { RecipeType } from "../types/recipe";
 import "../styles/Home.css";
+import type { RecipeType } from "../types/recipe";
+
+export interface Context {
+	favoriteIds: string[];
+	toggleFavorite: (idMeal: string) => void;
+	recipes: RecipeType[];
+	getRecipes: () => void;
+}
 
 export default function Home() {
-	const [recipes, setRecipes] = useState<RecipeType[]>([]);
-
-	const getRecipes = () => {
-		fetch("https://www.themealdb.com/api/json/v1/1/search.php?s=")
-			.then((response) => response.json())
-			.then((data) => {
-				setRecipes(data.meals);
-			});
-	};
+	const { favoriteIds, toggleFavorite, recipes, getRecipes } =
+		useOutletContext<Context>();
 
 	return (
 		<>
 			<section className="recipes-cards">
 				{recipes.map((recipe) => {
-					return <RecipeCard recipe={recipe} key={recipe.idMeal} />;
+					const isFavorite = favoriteIds.includes(recipe.idMeal);
+					return (
+						<RecipeCard
+							recipe={recipe}
+							isFavorite={isFavorite}
+							onToggleFavorite={toggleFavorite}
+							key={recipe.idMeal}
+						/>
+					);
 				})}
 				<button type="button" onClick={getRecipes}>
 					Get recipes

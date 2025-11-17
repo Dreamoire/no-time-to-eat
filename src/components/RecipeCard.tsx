@@ -1,4 +1,3 @@
-import { useState } from "react";
 import starEmpty from "../assets/images/favoris.png";
 import starFull from "../assets/images/favoris_clicked.png";
 import type { RecipeType } from "../types/recipe";
@@ -8,11 +7,15 @@ import prepIcon from "../assets/images/preparation_time.png";
 
 export interface RecipeCardProps {
 	recipe: RecipeType;
+	isFavorite: boolean;
+	onToggleFavorite: (idMeal: string) => void;
 }
 
-export default function RecipeCard({ recipe }: RecipeCardProps) {
-	const [isFavorite, setIsFavorite] = useState(false);
-
+export default function RecipeCard({
+	recipe,
+	isFavorite,
+	onToggleFavorite,
+}: RecipeCardProps) {
 	return (
 		<>
 			<article className="recipe-card">
@@ -26,14 +29,14 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
 				<span className="recipe-card-infos">
 					<p className="recipe-card-prep-time">
 						<img src={prepIcon} alt="" width={24} />
-						{prepTime(recipe.strInstructions, recipe.idMeal)} minutes
+						{prepTime(recipe.strInstructions, recipe.idMeal)} min
 					</p>
 					<button type="button" className="recipe-card-button">
 						Recipe
 					</button>
 					<button
 						type="button"
-						onClick={() => setIsFavorite(!isFavorite)}
+						onClick={() => onToggleFavorite(recipe.idMeal)}
 						aria-pressed={isFavorite}
 						aria-label={
 							isFavorite ? "Remove from favorites" : "Add to favorites"
