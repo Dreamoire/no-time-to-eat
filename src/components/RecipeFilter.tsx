@@ -3,6 +3,7 @@ import type { ChangeEvent } from "react";
 import "../styles/recipe_filter.css";
 
 function RecipeFilter() {
+	// Tableau de test pour le filtre, non définitif //
 	const testRecipes = [
 		{
 			titre: "Spaghetti Bolognaise",
