@@ -3,7 +3,7 @@ import { createBrowserRouter } from "react-router";
 import App from "./App.tsx";
 import Favorite from "./pages/Favorite.tsx";
 import Home from "./pages/Home.tsx";
-import RecipiesSheet from "./pages/RecipeSheet.tsx";
+import RecipeSheet from "./pages/RecipeSheet.tsx";
 import Recipes from "./pages/Recipes.tsx";
 
 export const router = createBrowserRouter([
@@ -24,7 +24,7 @@ export const router = createBrowserRouter([
 			},
 			{
 				path: "/recipe/:id",
-				element: <RecipiesSheet />,
+				element: <RecipeSheet />,
 			},
 		],
 	},

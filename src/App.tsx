@@ -7,10 +7,6 @@ export default function App() {
 		<>
 			<NavBar />
 			<Outlet />
-			{/* Lien temporaire vers la page RecipiesSheet */}
-			<div>
-				<a href="/recipe/1">Voir la recette</a>
-			</div>
 		</>
 	);
 }

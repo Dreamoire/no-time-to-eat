@@ -6,15 +6,15 @@ import eatingPersonIcon from "../assets/images/eating-person.png";
 import favoriteIcon from "../assets/images/favoris_empty.png";
 import printerIcon from "../assets/images/printer.png";
 import CalorieInfo from "../components/CalorieInfo";
-import type { Meal } from "../types/meal";
+import type { Recipe } from "../types/meal";
 
 import "../styles/RecipeSheet.css";
 
 export default function RecipeSheet() {
-	const [meal, setMeal] = useState<Meal | null>(null);
+	const [recipe, setRecipe] = useState<Recipe | null>(null);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
-	const { id } = useParams();
+	const { id } = useParams<{ id: string }>();
 
 	const printRef = useRef<HTMLDivElement | null>(null);
 
@@ -34,8 +34,8 @@ export default function RecipeSheet() {
 					throw new Error("Erreur API");
 				}
 
-				const mealData = (await response.json()) as { meals: Meal[] };
-				setMeal(mealData.meals[0]);
+				const recipeData = (await response.json()) as { meals: Recipe[] };
+				setRecipe(recipeData.meals[0]);
 			} catch (err) {
 				if (err instanceof Error) {
 					setError(err.message);
@@ -54,14 +54,14 @@ export default function RecipeSheet() {
 		return <p className="loading">Loading...</p>;
 	}
 
-	if (error || !meal) {
+	if (error || !recipe) {
 		return <p className="error">Unable to load the recipe.</p>;
 	}
 
 	const ingredients: string[] = [];
 	for (let i = 1; i <= 20; i += 1) {
-		const ing = meal[`strIngredient${i}`];
-		const measure = meal[`strMeasure${i}`];
+		const ing = recipe[`strIngredient${i}`];
+		const measure = recipe[`strMeasure${i}`];
 
 		if (ing && ing.trim() !== "") {
 			ingredients.push(`${ing} - ${measure ?? ""}`.trim());
@@ -75,7 +75,7 @@ export default function RecipeSheet() {
 					<section className="recipe-hero">
 						<section className="recipe-hero-text">
 							<p>recette</p>
-							<h1>{meal.strMeal}</h1>
+							<h1>{recipe.strMeal}</h1>
 
 							<section className="recipe-buttons">
 								<div className="recipe-buttons-row recipe-buttons-row--top">
@@ -96,7 +96,7 @@ export default function RecipeSheet() {
 									</button>
 								</div>
 
-								<CalorieInfo meal={meal} className="recipe-kcal-styled" />
+								<CalorieInfo meal={recipe} className="recipe-kcal-styled" />
 
 								<ul className="recipe-tags recipe-buttons-row recipe-buttons-row--bottom">
 									<li title="cooking time: 30 min">
@@ -125,7 +125,7 @@ export default function RecipeSheet() {
 						</section>
 
 						<figure className="recipe-hero-figure">
-							<img src={meal.strMealThumb} alt={meal.strMeal} />
+							<img src={recipe.strMealThumb} alt={recipe.strMeal} />
 						</figure>
 					</section>
 				</header>
@@ -142,10 +142,10 @@ export default function RecipeSheet() {
 
 					<article className="preparation-panel">
 						<h2>Preparation</h2>
-						{meal.strInstructions
+						{recipe.strInstructions
 							?.split(/\r?\n/)
-							.filter((p) => p.trim() !== "")
-							.map((p) => (
+							.filter((p: string) => p.trim() !== "")
+							.map((p: string) => (
 								<p key={p}>{p}</p>
 							))}
 					</article>
