@@ -1,4 +1,4 @@
-import type { Ingredient, SearchType } from "./SearchBar";
+import type { Ingredient, SearchType } from "../types/search.ts";
 import "../styles/SearchBar.css";
 
 export function SelectedIngredients({
@@ -15,21 +15,19 @@ export function SelectedIngredients({
 	}
 
 	return (
-		<div className="selectedIngs">
+		<div className="selected-ingredients">
 			{selectedIngredients.map((i) => (
-				<div className="selectedIngCard" key={i.idIngredient}>
+				<div className="selected-ingredient-card" key={i.idIngredient}>
 					{i.strThumb ? (
 						<img
-							className="selectedIngImage"
+							className="selected-ingredient-img"
 							src={i.strThumb}
 							alt={i.strIngredient}
 						/>
 					) : null}
-					<span style={{ fontSize: 14, fontWeight: "bold" }}>
-						{i.strIngredient}
-					</span>
+					<span>{i.strIngredient}</span>
 					<button
-						className="selectedIngBtn"
+						className="selected-ingredient-btn"
 						type="button"
 						onClick={() => {
 							onRemoveIngredient(i);

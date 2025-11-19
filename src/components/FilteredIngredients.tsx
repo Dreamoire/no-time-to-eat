@@ -1,4 +1,4 @@
-import type { Ingredient, SearchType } from "./SearchBar";
+import type { Ingredient, SearchType } from "../types/search.ts";
 import "../styles/SearchBar.css";
 
 export function FilteredIngredients({
@@ -17,31 +17,34 @@ export function FilteredIngredients({
 	}
 
 	return (
-		<div className="filteredIngList">
-			{filteredIngredients.map((i) => (
-				// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
-				<div
-					className="filteredIng"
-					key={i.idIngredient}
-					onClick={() => onSelectIngredient(i)}
-					style={{
-						backgroundColor: selectedIngredients.some(
-							(si) => si.idIngredient === i.idIngredient,
-						)
-							? "#b9b9b9ff"
-							: "#dbdbdbff",
-					}}
-				>
-					{i.strThumb ? (
-						<img
-							className="filteredIngImage"
-							src={i.strThumb}
-							alt={i.strIngredient}
-						/>
-					) : null}
-					<span>{i.strIngredient}</span>
-				</div>
-			))}
+		<div className="filtered-ingredient-list">
+			{filteredIngredients.map((i) => {
+				const isSelected = selectedIngredients.some(
+					(si) => si.idIngredient === i.idIngredient,
+				);
+
+				return (
+					<button
+						type="button"
+						key={i.idIngredient}
+						className={
+							isSelected
+								? "filtered-ingredient filtered-ingredient-selected"
+								: "filtered-ingredient filtered-ingredient-default"
+						}
+						onClick={() => onSelectIngredient(i)}
+					>
+						{i.strThumb ? (
+							<img
+								className="filtered-ingredient-img"
+								src={i.strThumb}
+								alt={i.strIngredient}
+							/>
+						) : null}
+						<span>{i.strIngredient}</span>
+					</button>
+				);
+			})}
 		</div>
 	);
 }
