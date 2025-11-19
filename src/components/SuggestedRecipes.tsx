@@ -22,16 +22,21 @@ export function SuggestedRecipies({
 	);
 
 	const filteredMeals = meals.filter((meal) => {
-		const hasSelectedIngredient = meal.strIngredients.some((mealIngredient) =>
-			selectedIngredientsAsString.some((selectedIngredientAsString) =>
-				mealIngredient
-					.toLowerCase()
-					.includes(selectedIngredientAsString.toLowerCase()),
-			),
+		const mealIngredientsLower = meal.strIngredients.map((ing) =>
+			ing.toLowerCase(),
 		);
 
-		return hasSelectedIngredient;
+		// Pour afficher uniquement les recettes qui contiennent tous les ingrédients sélectionnés
+		const hasAllSelectedIngredients = selectedIngredientsAsString.every(
+			(selectedIngredient) =>
+				mealIngredientsLower.some((mealIngredient) =>
+					mealIngredient.includes(selectedIngredient.toLowerCase()),
+				),
+		);
+
+		return hasAllSelectedIngredients;
 	});
+
 	/* Je vais remplacer cette partie par le composant RecipeCard de Julien
 	 alors faites pas attention à l'inline css svp. Merci. */
 	return (
