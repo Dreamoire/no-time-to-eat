@@ -1,0 +1,96 @@
+.recipe-filter {
+	color: var(--text-color-wht);
+	width: 20em;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	font-family: var(--text-font);
+	font-size: 1.2em;
+}
+
+.button-filter {
+	background-color: var(--bg-color-lightred);
+	border: solid rgba(0, 0, 0, 0.3);
+	height: 67.2px;
+	width: 67.2px;
+	img {
+		height: 3em;
+	}
+}
+
+.button-filter:hover {
+	opacity: 0.5;
+}
+
+.input-filter {
+	display: flex;
+	flex-direction: column;
+	background-color: var(--bg-color-darkred);
+	padding: 2em;
+	gap: 1em;
+	overflow: hidden;
+	transform-origin: top;
+}
+
+.input-filter.open {
+	animation: slideDown 0.3s ease forwards;
+}
+
+.input-filter.closing {
+	animation: slideUp 0.3s ease forwards;
+}
+
+@keyframes slideDown {
+	from {
+		transform: scaleY(0.8);
+		opacity: 0;
+	}
+	to {
+		transform: scaleY(1);
+		opacity: 1;
+	}
+}
+
+@keyframes slideUp {
+	from {
+		transform: scaleY(1);
+		opacity: 1;
+	}
+	to {
+		transform: scaleY(0.8);
+		opacity: 0;
+	}
+}
+
+.input {
+	width: auto;
+	background-color: var(--text-color-wht);
+	border: none;
+	border-radius: 2px;
+	margin-right: 4em;
+}
+
+.stick-filter {
+	accent-color: var(--text-color-wht);
+	cursor: grab;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+	background: var(--text-color-wht);
+	height: 6px;
+	border-radius: 3px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 16px;
+	height: 16px;
+	background: #3498db;
+	border-radius: 50%;
+	margin-top: -5px;
+}
+
+.input-form {
+	display: flex;
+}
