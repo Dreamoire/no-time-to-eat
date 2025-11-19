@@ -1,4 +1,4 @@
-export type Meal = {
+export type Recipe = {
 	strMeal: string;
 	strMealThumb: string;
 	strInstructions: string;
