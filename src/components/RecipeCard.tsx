@@ -1,5 +1,5 @@
-import starEmpty from "../assets/images/favoris.png";
-import starFull from "../assets/images/favoris_clicked.png";
+import starEmpty from "../assets/images/favoris_empty.png";
+import starFull from "../assets/images/favoris_full.png";
 import type { RecipeType } from "../types/recipe";
 import prepTime from "../utils/prepTime";
 import "../styles/RecipeCard.css";
