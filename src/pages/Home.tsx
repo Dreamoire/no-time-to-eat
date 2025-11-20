@@ -1,5 +1,4 @@
 import { useState } from "react";
-import RecipeCard from "../components/RecipeCard";
 import { SearchBar } from "../components/SearchBar";
 import type { RecipeType } from "../types/recipe";
 import "../styles/Home.css";
