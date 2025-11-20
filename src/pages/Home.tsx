@@ -20,8 +20,13 @@ export default function Home() {
 			<SearchBar />
 			<section className="recipes-cards">
 				{recipes.map((recipe) => {
-					return <RecipeCard recipe={recipe} key={recipe.idMeal} />;
+					return (
+						<div key={recipe.idMeal} className="recipe-placeholder">
+							{recipe.strMeal}
+						</div>
+					);
 				})}
+
 				<button type="button" onClick={getRecipes}>
 					Get recipes
 				</button>
