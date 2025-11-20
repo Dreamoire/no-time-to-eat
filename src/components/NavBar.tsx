@@ -1,24 +1,25 @@
 import "../styles/NavBar.css";
+import { Link } from "react-router";
 
 export default function NavBar() {
 	return (
 		<nav className="global-nav">
-			<a href="/" className="nav-logo">
+			<Link to="/" className="nav-logo">
 				<img
 					src="/src/assets/images/logo.png"
 					alt="logo"
 					className="logo-image"
 				/>
-			</a>
+			</Link>
 			<ul className="nav-links">
 				<li>
-					<a href="/signup">Sign up</a>
+					<Link to="/signup">Sign up</Link>
 				</li>
 				<li>
-					<a href="/blog">Blog</a>
+					<Link to="/blog">Blog</Link>
 				</li>
 				<li>
-					<a href="/favorites">Favorites</a>
+					<Link to="/favorite">Favorites</Link>
 				</li>
 			</ul>
 		</nav>
