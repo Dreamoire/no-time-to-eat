@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { SearchBar } from "../components/SearchBar";
 import type { RecipeType } from "../types/recipe";
 import "../styles/Home.css";
 
@@ -15,6 +16,7 @@ export default function Home() {
 
 	return (
 		<>
+			<SearchBar />
 			<section className="recipes-cards">
 				{recipes.map((recipe) => {
 					return (

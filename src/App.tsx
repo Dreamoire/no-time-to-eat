@@ -1,12 +1,18 @@
+import { Link, Outlet } from "react-router";
 import "./App.css";
-import { Outlet } from "react-router";
-import NavBar from "./components/NavBar";
+import "./index.css";
+import "./styles/reset.css";
+import RecipeFilter from "./components/RecipeFilter";
 
-export default function App() {
+function App() {
 	return (
 		<>
-			<NavBar />
+			<Link to="/">Home</Link>
+			<Link to="/favorite">Favorite</Link>
 			<Outlet />
+			<RecipeFilter />
 		</>
 	);
 }
+
+export default App;
