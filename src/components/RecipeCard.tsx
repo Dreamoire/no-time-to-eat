@@ -3,7 +3,6 @@ import starFull from "../assets/images/favoris_full.png";
 import type { RecipeType } from "../types/recipe";
 import prepTime from "../utils/prepTime";
 import "../styles/RecipeCard.css";
-import { useState } from "react";
 import prepIcon from "../assets/images/preparation_time.png";
 import { useFavorite } from "../contexts/FavoriteContext";
 
@@ -12,16 +11,16 @@ export interface RecipeCardProps {
 }
 
 export default function RecipeCard({ recipe }: RecipeCardProps) {
-	const { favoriteIds, setFavoriteIds } = useFavorite();
-	const [isFavorite, setIsFavorite] = useState(false);
+	const { favoriteRecipes, setFavoriteRecipes } = useFavorite();
+	const isFavorite = favoriteRecipes.includes(recipe);
 
-	function toggleFavorite(idMeal: string) {
-		if (!favoriteIds.includes(idMeal)) {
-			setFavoriteIds([...favoriteIds, idMeal]);
-		} else if (favoriteIds.includes(idMeal)) {
-			setFavoriteIds(
-				favoriteIds.filter((element) => {
-					return element !== idMeal;
+	function toggleFavorite(recipe: RecipeType) {
+		if (!favoriteRecipes.includes(recipe)) {
+			setFavoriteRecipes((prev) => [...prev, recipe]);
+		} else {
+			setFavoriteRecipes(
+				favoriteRecipes.filter((e) => {
+					return e !== recipe;
 				}),
 			);
 		}
@@ -47,7 +46,7 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
 					</button>
 					<button
 						type="button"
-						onClick={() => setIsFavorite(!isFavorite)}
+						onClick={() => toggleFavorite(recipe)}
 						aria-pressed={isFavorite}
 						aria-label={
 							isFavorite ? "Remove from favorites" : "Add to favorites"
