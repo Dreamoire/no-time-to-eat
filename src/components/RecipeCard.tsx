@@ -4,6 +4,7 @@ import starFull from "../assets/images/favoris_full.png";
 import type { RecipeType } from "../types/recipe";
 import prepTime from "../utils/prepTime";
 import "../styles/RecipeCard.css";
+import { Link } from "react-router";
 import prepIcon from "../assets/images/preparation_time.png";
 
 export interface RecipeCardProps {
@@ -21,16 +22,24 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
 					alt={recipe.strMeal}
 					className="recipe-card-picture"
 				/>
-				<h2>{recipe.strMeal}</h2>
+				<h2>
+					{recipe.strMeal.length >= 40
+						? `${recipe.strMeal.slice(0, 40)}...`
+						: recipe.strMeal}
+				</h2>
 				<hr />
 				<span className="recipe-card-infos">
 					<p className="recipe-card-prep-time">
 						<img src={prepIcon} alt="" width={24} />
 						{prepTime(recipe.strInstructions, recipe.idMeal)} minutes
 					</p>
-					<button type="button" className="recipe-card-button">
+					<Link
+						to={`/recipe/${recipe.idMeal}`}
+						className="recipe-card-button"
+						target="blank"
+					>
 						Recipe
-					</button>
+					</Link>
 					<button
 						type="button"
 						onClick={() => setIsFavorite(!isFavorite)}

@@ -4,7 +4,6 @@ import "./index.css";
 import "./styles/reset.css";
 import Header from "./components/Header";
 import NavBar from "./components/NavBar";
-import RecipeFilter from "./components/RecipeFilter";
 
 function App() {
 	const location = useLocation();
@@ -17,7 +16,6 @@ function App() {
 			<Link to="/">Home</Link>
 			<Link to="/favorite">Favorite</Link>
 			<Outlet />
-			<RecipeFilter />
 		</>
 	);
 }

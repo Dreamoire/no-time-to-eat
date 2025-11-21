@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { ChangeEvent } from "react";
-import "../styles/ingredient_filter.css";
+import "../styles/Filter.css";
 
 function IngredientFilter() {
 	// Tableau de test pour le filtre, non définitif //
@@ -172,7 +172,9 @@ function IngredientFilter() {
 					<img src="src\assets\images\filter.svg" alt="" />
 				</button>
 				{(open || closing) && (
-					<div className={`input-filter ${closing ? "closing" : "open"}`}>
+					<div
+						className={`input-filter-ingredient ${closing ? "closing" : "open"}`}
+					>
 						<label htmlFor="time">Temps de préparation : {time} min</label>
 						<input
 							type="range"
