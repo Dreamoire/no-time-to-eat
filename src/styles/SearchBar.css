@@ -118,9 +118,11 @@
 
 .search-results {
 	display: flex;
-	flex-direction: column;
-	gap: 12px;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 30px;
 	width: 100%;
+	margin-top: 50px;
 }
 
 .filtered-ingredient-list button {
@@ -174,6 +176,7 @@
 .selected-ingredients {
 	display: flex;
 	flex-direction: row;
+	justify-content: center;
 	gap: 16px;
 	flex-wrap: wrap;
 	width: 100%;

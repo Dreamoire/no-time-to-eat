@@ -22,7 +22,20 @@
 	opacity: 0.5;
 }
 
-.input-filter {
+.input-filter-recipe {
+	display: flex;
+	flex-direction: column;
+	background-color: var(--bg-color-brightred);
+	padding: 2em;
+	gap: 1em;
+	overflow: hidden;
+	transform-origin: top;
+	position: absolute;
+	z-index: 1000;
+	top: 201px;
+}
+
+.input-filter-ingredient {
 	display: flex;
 	flex-direction: column;
 	background-color: var(--bg-color-darkred);
@@ -30,13 +43,24 @@
 	gap: 1em;
 	overflow: hidden;
 	transform-origin: top;
+	position: absolute;
+	z-index: 1000;
+	top: 201px;
 }
 
-.input-filter.open {
+.input-filter-recipe.open {
 	animation: slideDown 0.3s ease forwards;
 }
 
-.input-filter.closing {
+.input-filter-ingredient.open {
+	animation: slideDown 0.3s ease forwards;
+}
+
+.input-filter-recipe.closing {
+	animation: slideUp 0.3s ease forwards;
+}
+
+.input-filter-ingredient.closing {
 	animation: slideUp 0.3s ease forwards;
 }
 

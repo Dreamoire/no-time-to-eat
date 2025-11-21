@@ -21,7 +21,11 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
 					alt={recipe.strMeal}
 					className="recipe-card-picture"
 				/>
-				<h2>{recipe.strMeal}</h2>
+				<h2>
+					{recipe.strMeal.length >= 40
+						? `${recipe.strMeal.slice(0, 40)}...`
+						: recipe.strMeal}
+				</h2>
 				<hr />
 				<span className="recipe-card-infos">
 					<p className="recipe-card-prep-time">

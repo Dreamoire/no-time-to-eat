@@ -1,5 +1,7 @@
 import type { Ingredient, Recipe, SearchType } from "../types/search.ts";
 import "../styles/SearchBar.css";
+import type { RecipeType } from "../types/recipe.ts";
+import RecipeCard from "./RecipeCard.tsx";
 
 export function SuggestedRecipes({
 	selectedIngredients,
@@ -38,46 +40,7 @@ export function SuggestedRecipes({
 
 	/* Je vais remplacer cette partie par le composant RecipeCard de Julien
 	 alors faites pas attention à l'inline css svp. Merci. */
-	return (
-		<div
-			style={{
-				display: "flex",
-				flexDirection: "row",
-				gap: 12,
-				marginTop: 24,
-				flexWrap: "wrap",
-				width: "100%",
-			}}
-		>
-			{filteredRecipes.map((recipe) => (
-				<div
-					key={recipe.idMeal}
-					style={{
-						padding: 12,
-						backgroundColor: "#dbdbdbff",
-						width: "100%",
-						maxWidth: 120,
-						borderRadius: 12,
-						display: "flex",
-						gap: 6,
-						flexDirection: "column",
-						alignItems: "center",
-					}}
-				>
-					{recipe.strMealThumb ? (
-						<img
-							src={recipe.strMealThumb}
-							alt={recipe.strMeal}
-							style={{
-								width: "100%",
-								height: "auto",
-								maxWidth: 72,
-							}}
-						/>
-					) : null}
-					<span>{recipe.strMeal}</span>
-				</div>
-			))}
-		</div>
-	);
+	return filteredRecipes.map((recipe) => (
+		<RecipeCard key={recipe.idMeal} recipe={recipe as RecipeType} />
+	));
 }
