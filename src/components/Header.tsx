@@ -36,8 +36,6 @@ export default function Header() {
 						300,
 						"STRANGER FRIDGE...",
 						500,
-						"",
-						200,
 						"FRIGO DE LA MAMA...",
 						500,
 						"",
