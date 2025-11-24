@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import "../styles/NavBar.css";
 
 export default function NavBar() {
-		const [isMenuOpen, setIsMenuOpen] = useState(false);
+	const [isMenuOpen, setIsMenuOpen] = useState(false);
 
 	const handleToggleMenu = () => {
 		setIsMenuOpen((prev) => !prev);
@@ -36,15 +36,18 @@ export default function NavBar() {
 
 			<ul className={`nav-links ${isMenuOpen ? "nav-links--open" : ""}`}>
 				<li>
-					<Link to="/" onClick={handleCloseMenu}>Sign up
+					<Link to="/" onClick={handleCloseMenu}>
+						Sign up
 					</Link>
 				</li>
 				<li>
-					<Link to="/blog" onClick={handleCloseMenu}>Blog
+					<Link to="/blog" onClick={handleCloseMenu}>
+						Blog
 					</Link>
 				</li>
 				<li>
-					<Link to="/favorite" onClick={handleCloseMenu}>Favorites
+					<Link to="/favorite" onClick={handleCloseMenu}>
+						Favorites
 					</Link>
 				</li>
 			</ul>
