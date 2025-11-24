@@ -32,12 +32,12 @@ export default function Header() {
 			<div className="header-overlay">
 				<TypeAnimation
 					sequence={[
-						"FRIGO...",
-						300,
-						"STRANGER FRIDGE...",
-						500,
-						"FRIGO DE LA MAMA...",
-						500,
+						"FRIGO",
+						2000,
+						"STRANGER FRIDGE",
+						2000,
+						"FRIGO DE LA MAMA",
+						2000,
 						"",
 						200,
 						"NO TIME TO EAT",
@@ -48,8 +48,8 @@ export default function Header() {
 							}
 						},
 					]}
-					speed={{ type: "keyStrokeDelayInMs", value: 120 }}
-					deletionSpeed={10}
+					speed={{ type: "keyStrokeDelayInMs", value: 240 }}
+					deletionSpeed={2}
 					wrapper="h1"
 					repeat={0}
 					cursor={false}

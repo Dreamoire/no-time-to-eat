@@ -6,6 +6,6 @@ import "./index.css";
 
 createRoot(document.getElementById("root") || document.body).render(
 	<FavoriteProvider>
-		<RouterProvider router={router} />,
+		<RouterProvider router={router} />
 	</FavoriteProvider>,
 );

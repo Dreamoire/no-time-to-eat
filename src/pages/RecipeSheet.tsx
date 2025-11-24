@@ -74,7 +74,7 @@ export default function RecipeSheet() {
 				<header className="recipe-header">
 					<section className="recipe-hero">
 						<section className="recipe-hero-text">
-							<p>recette</p>
+							<p>Recipe</p>
 							<h1>{recipe.strMeal}</h1>
 
 							<section className="recipe-buttons">

@@ -1,0 +1,57 @@
+.carousel {
+	position: relative;
+	width: 100%;
+	max-width: 1000px;
+	margin: 100px auto;
+}
+
+.carousel-title {
+	margin-bottom: 20px;
+}
+
+.carousel-track {
+	display: flex;
+	gap: 16px;
+	overflow-x: auto;
+	scroll-behavior: smooth;
+	padding: 8px 40px;
+	scrollbar-width: none;
+}
+
+.carousel-track::-webkit-scrollbar {
+	display: none;
+}
+
+.carousel-item {
+	flex: 0 0 auto;
+	width: 220px;
+}
+
+.carousel-item > .recipe-card {
+	width: 100%;
+}
+
+.carousel-btn {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	border: none;
+	background: rgba(0, 0, 0, 0.5);
+	color: white;
+	width: 32px;
+	height: 32px;
+	border-radius: 999px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 1;
+}
+
+.carousel-btn-left {
+	left: 4px;
+}
+
+.carousel-btn-right {
+	right: 4px;
+}

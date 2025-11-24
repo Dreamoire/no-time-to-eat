@@ -1,7 +1,7 @@
 .recipe-card {
 	display: flex;
 	flex-direction: column;
-	justify-content: space-evenly;
+	justify-content: space-between;
 	border-radius: 0 0 5px 5px;
 	box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.25);
 	width: 276px;
@@ -18,7 +18,7 @@ h2 {
 hr {
 	border: 1px solid var(--bg-color-darkred);
 	width: 200px;
-	margin: 0 0 0 10;
+	margin: 0 auto;
 }
 
 .recipe-card-favorites {
@@ -27,6 +27,8 @@ hr {
 }
 
 .recipe-card-button {
+	text-decoration: none;
+	color: #000000;
 	font-family: var(--text-font);
 	height: 20px;
 	width: 83px;
@@ -34,6 +36,9 @@ hr {
 	border-radius: 10px;
 	font-weight: 500;
 	background-color: #dfd6cd;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .recipe-card-button:hover {
@@ -49,8 +54,9 @@ hr {
 
 .recipe-card-infos {
 	display: flex;
-	justify-content: space-evenly;
+	justify-content: space-around;
 	align-items: center;
+	margin-bottom: 9px;
 }
 
 .recipe-card-prep-time {

@@ -1,4 +1,4 @@
-import { Link, Outlet, useLocation } from "react-router";
+import { Outlet, useLocation } from "react-router";
 import "./App.css";
 import "./index.css";
 import "./styles/reset.css";
@@ -13,8 +13,6 @@ function App() {
 		<>
 			<NavBar />
 			{!hideHeader && <Header />}
-			<Link to="/">Home</Link>
-			<Link to="/favorite">Favorite</Link>
 			<Outlet />
 		</>
 	);
