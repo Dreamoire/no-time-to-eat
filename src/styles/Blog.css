@@ -2,40 +2,98 @@
 	padding: 2rem;
 	display: flex;
 	flex-direction: column;
-	gap: 3rem;
-}
-
-.blog-title {
-	font-size: 2rem;
-	font-weight: bold;
-	text-align: center;
+	gap: 2rem;
+	background-color: var(--bg-color);
 }
 
 .blog-article {
 	display: flex;
 	flex-direction: column;
-	gap: 1rem;
-	max-width: 900px;
+	gap: 0.8rem;
+	max-width: 700px;
 	margin: 0 auto;
+	padding: 1rem;
+	border-radius: 8px;
+	background-color: var(--bg-color);
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+	transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.blog-article:hover {
+	box-shadow: 0 4px 10px rgba(161, 41, 51, 0.15);
+	transform: translateY(-4px);
+}
+
+.blog-separator {
+	height: 1px;
+	width: 100%;
+	max-width: 600px;
+	margin: 0.2rem auto 0;
+
+	background-color: var(--bg-color-darkred);
+	opacity: 0.7;
+	border-radius: 1px;
 }
 
 .article-title {
-	font-size: 1.4rem;
+	font-family: var(--title-font);
+	font-size: 1.6rem;
+	font-weight: 700;
 	text-align: center;
+	color: var(--text-color-blk);
+	margin: 0.4rem 0 0.2rem;
+}
+
+.article-meta {
+	font-family: var(--text-font);
+	font-size: 0.9rem;
+	font-style: italic;
+	color: var(--text-color-ftr);
+	display: flex;
+	align-items: center;
+	gap: 0.2rem;
+	margin: 0;
+}
+
+.article-author {
+	font-weight: 700;
+	color: var(--text-color-blk);
+	font-style: normal;
+	color: var(--bg-color-darkred);
+}
+
+.article-dot {
+	color: var(--text-color-ftr);
 }
 
 .article-intro,
 .article-full-text {
+	font-family: var(--text-font);
 	font-size: 1rem;
 	line-height: 1.6;
 	text-align: left;
-	color: #555;
+	color: var(--text-color-blk);
+}
+
+.article-intro {
+	font-weight: 500;
+}
+
+.article-full-text em {
+	font-style: italic;
+	color: var(--text-color-ftr);
+}
+
+.article-full-text strong {
+	font-weight: 700;
 }
 
 .article-full-text ol,
 .article-full-text ul {
 	text-align: left;
 	padding-left: 1.4rem;
+	margin-top: 0.4rem;
+	margin-bottom: 0.4rem;
 }
 
 .blog-image {
@@ -48,17 +106,23 @@
 	object-fit: cover;
 }
 
+/* BOUTON READ MORE */
+
 .read-more-button {
-	align-self: flex-start;
-	padding: 0.4rem 0.8rem;
-	background: transparent;
-	border: 1px solid #333;
+	align-self: self-start;
+	padding: 0.4rem 0.9rem;
+	background-color: --bg-color-fiche;
+	border: 1px solid var(--border-color);
 	cursor: pointer;
 	font-size: 0.9rem;
 	border-radius: 4px;
-	transition: background-color 0.2s ease;
+	transition: background-color 0.2s ease, border-color 0.2s ease;
+	font-family: var(--text-font);
+	color: var(--text-color-blk);
 }
 
 .read-more-button:hover {
-	background-color: #f0f0f0;
+	background-color: var(--bg-color-brightred);
+	border-color: var(--bg-color-darkred);
+	color: var(--text-color-wht);
 }

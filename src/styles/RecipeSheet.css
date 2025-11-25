@@ -115,7 +115,6 @@ figure {
 	height: 22px;
 }
 
-.recipe-tag-text,
 .recipe-kcal {
 	color: var(--text-color-wht);
 	font-size: 0.9rem;
@@ -127,7 +126,7 @@ figure {
 	max-width: 1200px;
 	margin: 3rem auto 0;
 	display: flex;
-	gap: 4rem;
+	gap: 2rem;
 	align-items: flex-start;
 }
 
@@ -162,6 +161,13 @@ figure {
 .preparation-panel {
 	width: 60%;
 	padding-top: 2rem;
+	padding-left: 1rem;
+	padding-right: 3rem;
+	box-sizing: border-box;
+}
+
+.preparation-panel p {
+	margin-bottom: 1.6rem;
 }
 
 .recipe-buttons {
@@ -182,8 +188,9 @@ figure {
 
 .recipe-tags {
 	list-style: none;
-	padding: 0;
 	margin: 0;
+	padding: 0; /* убираем стандартный отступ слева */
+	font-size: clamp(0.75rem, 1.2vw, 0.9rem);
 }
 
 .icon-button {
@@ -197,13 +204,36 @@ figure {
 	transition: background-color .2s ease, transform .2s ease;
 }
 
-.icon-button:hover {
+button.icon-button:hover {
 	background-color: var(--bg-color-brightred);
 	transform: scale(1.1);
 }
 
-.icon-button:hover img {
+button.icon-button:hover img {
 	filter: brightness(0) invert(1);
+}
+
+.icon-static {
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(245, 240, 236, 0.6);
+	cursor: default;
+}
+
+.icon-static--info {
+	width: clamp(24px, 4vw, 30px);
+	height: clamp(24px, 4vw, 30px);
+}
+
+.icon-static img {
+	width: 60%;
+	height: 60%;
+	max-width: 24px;
+	max-height: 24px;
+	object-fit: contain;
+	display: block;
 }
 
 @media (max-width: 768px) {
@@ -296,8 +326,8 @@ figure {
 	.recipe-sheet {
 		color: var(--text-color-blk) !important;
 		background: #fff !important;
-		margin: 2cm auto;
-		padding: 2cm 1.5cm;
+		margin: 1.5cm auto;
+		padding: 2cm 1.2cm;
 	}
 
 	.recipe-header {

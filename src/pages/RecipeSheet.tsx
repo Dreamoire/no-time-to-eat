@@ -100,24 +100,22 @@ export default function RecipeSheet() {
 
 									<ul className="recipe-tags recipe-buttons-row recipe-buttons-row--bottom">
 										<li title="cooking time: 30 min">
-											<button
-												type="button"
-												className="icon-button icon-button--info"
-												aria-label="cooking time: 30 min"
+											<div
+												className="icon-static icon-static--info"
+												aria-hidden="true"
 											>
-												<img src={cookingTimeIcon} alt="" />
-											</button>
+												<img src={cookingTimeIcon} alt="cooking time" />
+											</div>
 											<span className="recipe-tag-text">30 min</span>
 										</li>
 
 										<li title="serves 6 people">
-											<button
-												type="button"
-												className="icon-button icon-button--info"
-												aria-label="serves 6 people"
+											<div
+												className="icon-static icon-static--info"
+												aria-hidden="true"
 											>
-												<img src={eatingPersonIcon} alt="" />
-											</button>
+												<img src={eatingPersonIcon} alt="serves" />
+											</div>
 											<span className="recipe-tag-text">6 people</span>
 										</li>
 									</ul>
