@@ -1,5 +1,6 @@
 import starEmpty from "../assets/images/favoris_empty.png";
 import starFull from "../assets/images/favoris_full.png";
+import Cook from "../assets/images/chef.png";
 import type { RecipeType } from "../types/recipe";
 import prepTime from "../utils/prepTime";
 import "../styles/RecipeCard.css";
@@ -35,7 +36,11 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
 					alt={recipe.strMeal}
 					className="recipe-card-picture"
 				/>
-				<h2>{recipe.strMeal}</h2>
+				<h2>
+					{recipe.strMeal.length >= 30
+						? `${recipe.strMeal.slice(0, 30)}...`
+						: recipe.strMeal}
+				</h2>
 				<hr />
 				<span className="recipe-card-infos">
 					<p className="recipe-card-prep-time">
@@ -47,7 +52,7 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
 						className="recipe-card-button"
 						target="blank"
 					>
-						Recipe
+						<img src={Cook} width={24} alt="" />
 					</Link>
 					<button
 						type="button"

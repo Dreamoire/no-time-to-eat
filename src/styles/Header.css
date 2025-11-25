@@ -5,9 +5,16 @@
 	align-items: stretch;
 }
 
-.header-bg {
+.header-bg-ingredient {
 	width: 100%;
 	background-color: var(--bg-color-darkred);
+	display: flex;
+	justify-content: center;
+}
+
+.header-bg-recipe {
+	width: 100%;
+	background-color: var(--bg-color-brightred);
 	display: flex;
 	justify-content: center;
 }

@@ -10,6 +10,7 @@ import { FilteredIngredients } from "./FilteredIngredients";
 import RecipeCard from "./RecipeCard.tsx";
 import { SelectedIngredients } from "./SelectedIngredients";
 import { SuggestedRecipes } from "./SuggestedRecipes";
+import { useTheme } from "../contexts/ThemeContext.tsx";
 
 async function loadRecipes(): Promise<Recipe[]> {
 	const responses = await Promise.all(recipe_urls.map((url) => fetch(url)));
@@ -94,6 +95,7 @@ export function SearchBar() {
 		[],
 	);
 	const [recipes, setRecipes] = useState<Recipe[]>([]);
+	const { theme, setTheme } = useTheme();
 
 	useEffect(() => {
 		loadRecipes().then((recipesFromApi) => {
@@ -107,7 +109,8 @@ export function SearchBar() {
 		loadIngredients().then((ingredientsFromAPI) =>
 			setIngredients(ingredientsFromAPI),
 		);
-	}, [favoriteRecipes, setFavoriteRecipes]);
+		setTheme(false);
+	}, [favoriteRecipes, setFavoriteRecipes, setTheme]);
 
 	const [searchType, setSearchType] = useState<SearchType>("ingredient");
 	const [search, setSearch] = useState<string>("");
@@ -142,9 +145,10 @@ export function SearchBar() {
 						checked={searchType === "ingredient"}
 						id="switch"
 						name="switch"
-						onChange={() =>
-							setSearchType(searchType !== "recipe" ? "recipe" : "ingredient")
-						}
+						onChange={() => {
+							setSearchType(searchType !== "recipe" ? "recipe" : "ingredient");
+							setTheme(!theme);
+						}}
 					/>
 					<label htmlFor="switch">""</label>
 				</div>

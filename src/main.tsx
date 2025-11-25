@@ -3,9 +3,12 @@ import { RouterProvider } from "react-router";
 import { router } from "./router";
 import "./index.css";
 import FavoriteProvider from "./contexts/FavoriteContext";
+import ThemeProvider from "./contexts/ThemeContext";
 
 createRoot(document.getElementById("root") || document.body).render(
-	<FavoriteProvider>
-		<RouterProvider router={router} />,
-	</FavoriteProvider>,
+	<ThemeProvider>
+		<FavoriteProvider>
+			<RouterProvider router={router} />
+		</FavoriteProvider>
+	</ThemeProvider>,
 );

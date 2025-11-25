@@ -4,8 +4,8 @@
 	justify-content: space-between;
 	border-radius: 0 0 5px 5px;
 	box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.25);
-	width: 276px;
-	height: 264px;
+	width:300px;
+	height: 288px;
 	font-family: var(--text-font);
 	background-color: var(--bg-color-fiche);
 }
@@ -18,23 +18,41 @@ h2 {
 hr {
 	border: 1px solid var(--bg-color-darkred);
 	width: 200px;
-	margin: 0 0 0 10;
+	margin: 0 auto;
 }
 
 .recipe-card-favorites {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #dfd6cd;
+	height: 40px;
+	width: 40px;
+	border-radius: 100px;
 	border: none;
-	background-color: transparent;
+	background-color:;
+	border-radius: 50%;
+	cursor: pointer;
+	transition: background-color .2s ease, transform .2s ease;
+}
+
+.recipe-card-favorites:hover {
+	background-color: var(--bg-color-brightred);
+	transform: scale(1);
+}
+
+.recipe-card-favorites:hover img {
+	filter: brightness(0) invert(1);
 }
 
 .recipe-card-button {
 	text-decoration: none;
 	color: #000000;
 	font-family: var(--text-font);
-	height: 20px;
-	width: 83px;
+	height: 40px;
+	width: 40px;
 	border: none;
-	border-radius: 10px;
-	font-weight: 500;
+	border-radius: 100px;
 	background-color: #dfd6cd;
 	display: flex;
 	justify-content: center;
@@ -43,10 +61,15 @@ hr {
 
 .recipe-card-button:hover {
 	opacity: 0.8;
+	background-color: var(--bg-color-brightred)
+}
+
+.recipe-card-button:hover img{
+	filter: brightness(0) invert(1);	
 }
 
 .recipe-card-picture {
-	width: 276px;
+	width: 300px;
 	height: 138px;
 	object-fit: cover;
 	object-position: 100% 50%;

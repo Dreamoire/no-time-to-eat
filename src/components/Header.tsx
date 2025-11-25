@@ -9,6 +9,7 @@ import headerImage3 from "../assets/images/header_image_3.jpg";
 import headerImage4 from "../assets/images/header_image_4.jpg";
 
 import "../styles/Header.css";
+import { useTheme } from "../contexts/ThemeContext";
 
 const headerImages = [headerImage1, headerImage2, headerImage3, headerImage4];
 const cursorClassName = "header-title--type";
@@ -16,6 +17,7 @@ const cursorClassName = "header-title--type";
 export default function Header() {
 	const { pathname } = useLocation();
 	const [headerImage, setHeaderImage] = useState(headerImages[0]);
+	const { theme } = useTheme();
 
 	useEffect(() => {
 		const currentPath = pathname;
@@ -26,7 +28,7 @@ export default function Header() {
 
 	return (
 		<header className="header">
-			<div className="header-bg">
+			<div className={theme ? "header-bg-recipe" : "header-bg-ingredient"}>
 				<img src={headerImage} alt="Header banner" className="header-image" />
 			</div>
 			<div className="header-overlay">

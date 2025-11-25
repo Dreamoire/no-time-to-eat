@@ -3,4 +3,5 @@
 	flex-wrap: wrap;
 	gap: 50px;
 	justify-content: center;
+	transition: all 2s ease-out;
 }
