@@ -75,60 +75,59 @@ export default function RecipeSheet() {
 			<div ref={printRef}>
 				<header className="recipe-header">
 					<section className="recipe-hero">
-						<section className="recipe-hero-text">
-							<h1>{recipe.strMeal}</h1>
+						<section className="recipe-hero-inner">
+							<section className="recipe-hero-text">
+								<h1>{recipe.strMeal}</h1>
 
-							<section className="recipe-buttons">
-								<div className="recipe-buttons-row recipe-buttons-row--top">
-									<button
-										type="button"
-										className="icon-button icon-button--primary icon-button--favorite"
-										title="Favorites"
-										onClick={() => setIsFavorite(!isFavorite)}
-									>
-										<img
-											src={isFavorite ? starFull : starEmpty}
-											alt="Add to favorites"
-										/>
-									</button>
-									<button
-										type="button"
-										onClick={handlePrint}
-										className="icon-button icon-button--primary icon-button--print"
-										title="Print"
-									>
-										<img src={printerIcon} alt="Print the recipe" />
-									</button>
-								</div>
-
-								<CalorieInfo meal={recipe} className="recipe-kcal-styled" />
-
-								<ul className="recipe-tags recipe-buttons-row recipe-buttons-row--bottom">
-									<li title="cooking time: 30 min">
+								<section className="recipe-buttons">
+									<div className="recipe-buttons-row recipe-buttons-row--top">
 										<button
 											type="button"
-											className="icon-button icon-button--info"
-											aria-label="cooking time: 30 min"
+											className="icon-button icon-button--primary icon-button--favorite"
+											title="Favorites"
+											onClick={() => setIsFavorite(!isFavorite)}
 										>
-											<img src={cookingTimeIcon} alt="" />
+											<img
+												src={isFavorite ? starFull : starEmpty}
+												alt="Add to favorites"
+											/>
 										</button>
-										<span className="recipe-tag-text">30 min</span>
-									</li>
-
-									<li title="serves 6 people">
 										<button
 											type="button"
-											className="icon-button icon-button--info"
-											aria-label="serves 6 people"
+											onClick={handlePrint}
+											className="icon-button icon-button--primary icon-button--print"
+											title="Print"
 										>
-											<img src={eatingPersonIcon} alt="" />
+											<img src={printerIcon} alt="Print the recipe" />
 										</button>
-										<span className="recipe-tag-text">6 people</span>
-									</li>
-								</ul>
+									</div>
+
+									<CalorieInfo meal={recipe} className="recipe-kcal-styled" />
+
+									<ul className="recipe-tags recipe-buttons-row recipe-buttons-row--bottom">
+										<li title="cooking time: 30 min">
+											<div
+												className="icon-static icon-static--info"
+												aria-hidden="true"
+											>
+												<img src={cookingTimeIcon} alt="cooking time" />
+											</div>
+											<span className="recipe-tag-text">30 min</span>
+										</li>
+
+										<li title="serves 6 people">
+											<div
+												className="icon-static icon-static--info"
+												aria-hidden="true"
+											>
+												<img src={eatingPersonIcon} alt="serves" />
+											</div>
+											<span className="recipe-tag-text">6 people</span>
+										</li>
+									</ul>
+								</section>
 							</section>
 						</section>
-
 						<figure className="recipe-hero-figure">
 							<img src={recipe.strMealThumb} alt={recipe.strMeal} />
 						</figure>
@@ -156,10 +155,6 @@ export default function RecipeSheet() {
 					</article>
 				</section>
 			</div>
-
-			<footer className="recipe-footer">
-				<p>© Magic Fridge - 2025</p>
-			</footer>
 		</main>
 	);
 }

@@ -1,8 +1,10 @@
+import { useState } from "react";
+
 import blogImageBeginner from "../assets/images/blog-image-beginner.jpg";
 import blogImageChristmas from "../assets/images/blog-image-christmas.jpg";
 import blogImageFrigo from "../assets/images/blog-image-frigo.jpg";
 
-import { useState } from "react";
+import "../styles/Blog.css";
 
 export default function Blog() {
 	const [openArticle, setOpenArticle] = useState<number | null>(null);
@@ -13,8 +15,6 @@ export default function Blog() {
 
 	return (
 		<section className="blog-page">
-			<h1 className="blog-title">Blog</h1>
-
 			<article className="blog-article">
 				<img
 					src={blogImageChristmas}
@@ -23,6 +23,12 @@ export default function Blog() {
 				/>
 
 				<h2 className="article-title">Christmas on a French Plate</h2>
+
+				<p className="article-meta">
+					<strong className="article-author">By Florent Goujon</strong>
+					<span className="article-dot"> • </span>
+					<time dateTime="2024-12-01">December 1, 2024</time>
+				</p>
 
 				<p className="article-intro">
 					Christmas dinner in France changes from region to region — but one
@@ -62,6 +68,8 @@ export default function Blog() {
 				</button>
 			</article>
 
+			<div className="blog-separator" />
+
 			<article className="blog-article">
 				<img
 					src={blogImageBeginner}
@@ -73,6 +81,12 @@ export default function Blog() {
 					Cooking for Beginners: 10 Essential Techniques
 				</h2>
 
+				<p className="article-meta">
+					<strong className="article-author">By Julien Bill Gates</strong>
+					<span className="article-dot"> • </span>
+					<time dateTime="2024-11-15">November 15, 2024</time>
+				</p>
+
 				<p className="article-intro">
 					Good cooking is not magic — it’s technique. Here are 10 simple skills
 					that change everything:
@@ -83,7 +97,8 @@ export default function Blog() {
 						<p className="article-full-text">
 							From knife handling and sautéing to understanding heat levels and
 							seasoning properly, mastering basics changes everything. One key
-							concept is “mise en place”: preparing everything before cooking.
+							concept is <em>mise en place</em>: preparing everything before
+							cooking.
 						</p>
 
 						<ol className="article-full-text">
@@ -124,13 +139,17 @@ export default function Blog() {
 								beginner mistakes.
 							</li>
 							<br />
-							<li>Mise en place – preparing all ingredients before cooking.</li>
+							<li>
+								<em>Mise en place</em> – preparing all ingredients before
+								cooking.
+							</li>
 						</ol>
 
 						<p className="article-full-text">
 							<strong>Term explained:</strong>
 							<br />
-							Mise en place (French) means &quot;everything in its place&quot;.
+							<em>Mise en place</em> (French) means &quot;everything in its
+							place&quot;.
 							<br />
 							It’s a key principle in professional kitchens.
 						</p>
@@ -150,6 +169,8 @@ export default function Blog() {
 				</button>
 			</article>
 
+			<div className="blog-separator" />
+
 			<article className="blog-article">
 				<img
 					src={blogImageFrigo}
@@ -160,6 +181,14 @@ export default function Blog() {
 				<h2 className="article-title">
 					The Smart Fridge: How Tech Reinvents Cooking
 				</h2>
+
+				<p className="article-meta">
+					<strong className="article-author">
+						By Serah de Magic Fridge Team
+					</strong>
+					<span className="article-dot"> • </span>
+					<time dateTime="2024-10-28">October 28, 2024</time>
+				</p>
 
 				<p className="article-intro">
 					Everyone knows this moment: You open your fridge, stare for 2 minutes…

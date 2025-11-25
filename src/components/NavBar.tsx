@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import "../styles/NavBar.css";
 
 export default function NavBar() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
+	const location = useLocation();
 
 	const handleToggleMenu = () => {
 		setIsMenuOpen((prev) => !prev);
@@ -12,6 +13,8 @@ export default function NavBar() {
 	const handleCloseMenu = () => {
 		setIsMenuOpen(false);
 	};
+
+	const isActive = (path: string) => location.pathname === path;
 
 	return (
 		<nav className="global-nav">
@@ -36,17 +39,35 @@ export default function NavBar() {
 
 			<ul className={`nav-links ${isMenuOpen ? "nav-links--open" : ""}`}>
 				<li>
-					<Link to="/" onClick={handleCloseMenu}>
+					<Link
+						to="/"
+						onClick={handleCloseMenu}
+						className={`nav-link ${isActive("/") ? "nav-link--active" : ""}`}
+					>
 						Sign up
 					</Link>
 				</li>
+
 				<li>
-					<Link to="/blog" onClick={handleCloseMenu}>
+					<Link
+						to="/blog"
+						onClick={handleCloseMenu}
+						className={`nav-link ${
+							isActive("/blog") ? "nav-link--active" : ""
+						}`}
+					>
 						Blog
 					</Link>
 				</li>
+
 				<li>
-					<Link to="/favorite" onClick={handleCloseMenu}>
+					<Link
+						to="/favorite"
+						onClick={handleCloseMenu}
+						className={`nav-link ${
+							isActive("/favorite") ? "nav-link--active" : ""
+						}`}
+					>
 						Favorites
 					</Link>
 				</li>

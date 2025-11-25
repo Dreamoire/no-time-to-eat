@@ -57,3 +57,8 @@ h6 {
 #__next {
 	isolation: isolate;
 }
+
+figure {
+	margin: 0 !important;
+	padding: 0;
+}

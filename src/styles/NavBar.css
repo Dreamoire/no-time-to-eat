@@ -61,8 +61,16 @@
 	width: 100%;
 }
 
+.nav-links a.nav-link--active {
+	color: var(--bg-color-brightred);
+}
+
+.nav-links a.nav-link--active::after {
+	width: 100%;
+}
+
 .burger-button {
-	display: flex;
+	display: none;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
@@ -73,7 +81,6 @@
 	border: none;
 	background: transparent;
 	cursor: pointer;
-	display: none;
 }
 
 .burger-line {

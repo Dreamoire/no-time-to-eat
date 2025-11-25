@@ -5,13 +5,12 @@ import { TypeAnimation } from "react-type-animation";
 
 import headerImage1 from "../assets/images/header_image_1.jpg";
 import headerImage2 from "../assets/images/header_image_2.jpg";
-import headerImage3 from "../assets/images/header_image_3.jpg";
 import headerImage4 from "../assets/images/header_image_4.jpg";
 
 import "../styles/Header.css";
 import { useTheme } from "../contexts/ThemeContext";
 
-const headerImages = [headerImage1, headerImage2, headerImage3, headerImage4];
+const headerImages = [headerImage1, headerImage2, headerImage4];
 const cursorClassName = "header-title--type";
 
 export default function Header() {
