@@ -1,5 +1,6 @@
 import type { Ingredient, Recipe, SearchType } from "../types/search.ts";
 import "../styles/SearchBar.css";
+import { useFavorite } from "../contexts/FavoriteContext.tsx";
 import type { RecipeType } from "../types/recipe.ts";
 import RecipeCard from "./RecipeCard.tsx";
 
@@ -14,6 +15,8 @@ export function SuggestedRecipes({
 	searchType: SearchType;
 	mealIngBar: string;
 }) {
+	const { favoriteRecipes } = useFavorite();
+
 	if (searchType !== "ingredient") {
 		return null;
 	}
@@ -40,23 +43,26 @@ export function SuggestedRecipes({
 		return hasAllSelectedIngredients;
 	});
 
-	if (
-		filteredRecipes.filter((recipe) =>
-			mealIngBar === "" ? true : recipe.strCategory === mealIngBar,
-		).length === 0
-	) {
+	const categoryFilteredRecipes = filteredRecipes.filter((recipe) =>
+		mealIngBar === "" ? true : recipe.strCategory === mealIngBar,
+	);
+
+	if (categoryFilteredRecipes.length === 0) {
 		return <p className="empty-recipe">No recipe found</p>;
 	}
 
+	const favoriteIds = new Set(favoriteRecipes.map((fav) => fav.idMeal));
+	const sortedRecipes = [...categoryFilteredRecipes].sort((a, b) => {
+		const aIsFavorite = favoriteIds.has(a.idMeal);
+		const bIsFavorite = favoriteIds.has(b.idMeal);
+		return Number(bIsFavorite) - Number(aIsFavorite);
+	});
+
 	return (
 		<div className="recipe-results-container">
-			{filteredRecipes
-				.filter((recipe) =>
-					mealIngBar === "" ? true : recipe.strCategory === mealIngBar,
-				)
-				.map((recipe) => (
-					<RecipeCard key={recipe.idMeal} recipe={recipe as RecipeType} />
-				))}
+			{sortedRecipes.map((recipe) => (
+				<RecipeCard key={recipe.idMeal} recipe={recipe as RecipeType} />
+			))}
 		</div>
 	);
 }
