@@ -2,6 +2,7 @@ import { useState } from "react";
 import "../styles/SearchBar.css";
 import "../styles/Filter.css";
 import type { ChangeEvent } from "react";
+import { useFavorite } from "../contexts/FavoriteContext.tsx";
 import { useTheme } from "../contexts/ThemeContext.tsx";
 import type { RecipeType } from "../types/recipe.ts";
 import type { Ingredient, Recipe, SearchType } from "../types/search.ts";
@@ -83,6 +84,14 @@ export function SearchBar({
 	);
 
 	const { theme, setTheme } = useTheme();
+	const { favoriteRecipes } = useFavorite();
+
+	const favoriteIds = new Set(favoriteRecipes.map((fav) => fav.idMeal));
+	const sortedFinalRecipes = [...finalRecipes].sort((a, b) => {
+		const aIsFavorite = favoriteIds.has(a.idMeal);
+		const bIsFavorite = favoriteIds.has(b.idMeal);
+		return Number(bIsFavorite) - Number(aIsFavorite);
+	});
 
 	return (
 		<div>
@@ -257,10 +266,10 @@ export function SearchBar({
 			<div className="search-results">
 				{searchType === "recipe" && (
 					<div className="recipe-results-container">
-						{search.trim() === "" ? null : finalRecipes.length === 0 ? (
+						{search.trim() === "" ? null : sortedFinalRecipes.length === 0 ? (
 							<div className="empty-recipe">No recipe found</div>
 						) : (
-							finalRecipes.map((recipe) => (
+							sortedFinalRecipes.map((recipe) => (
 								<RecipeCard key={recipe.idMeal} recipe={recipe as RecipeType} />
 							))
 						)}
