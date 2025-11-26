@@ -15,7 +15,7 @@
 
 .carousel-track {
 	display: flex;
-	gap: 16px;
+	gap: 50px;
 	overflow-x: auto;
 	scroll-behavior: smooth;
 	padding: 8px, 0px;
