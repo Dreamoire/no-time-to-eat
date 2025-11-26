@@ -47,11 +47,7 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
 						<img src={prepIcon} alt="" width={24} />
 						{prepTime(recipe.strInstructions, recipe.idMeal)} min
 					</p>
-					<Link
-						to={`/recipe/${recipe.idMeal}`}
-						className="recipe-card-button"
-						target="blank"
-					>
+					<Link to={`/recipe/${recipe.idMeal}`} className="recipe-card-button">
 						<img src={Cook} width={24} alt="" />
 					</Link>
 					<button
