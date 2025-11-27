@@ -109,16 +109,16 @@
 /* BOUTON READ MORE */
 
 .read-more-button {
-	align-self: self-start;
+	align-self: center;
 	padding: 0.4rem 0.9rem;
-	background-color: --bg-color-fiche;
+	background-color: var(--bg-color-darkred);
 	border: 1px solid var(--border-color);
 	cursor: pointer;
 	font-size: 0.9rem;
 	border-radius: 4px;
 	transition: background-color 0.2s ease, border-color 0.2s ease;
 	font-family: var(--text-font);
-	color: var(--text-color-blk);
+	color: var(--text-color-wht);
 }
 
 .read-more-button:hover {

@@ -82,7 +82,7 @@ export default function Blog() {
 				</h2>
 
 				<p className="article-meta">
-					<strong className="article-author">By Julien Bill Gates</strong>
+					<strong className="article-author">By Julien Paultes</strong>
 					<span className="article-dot"> • </span>
 					<time dateTime="2024-11-15">November 15, 2024</time>
 				</p>
@@ -183,9 +183,7 @@ export default function Blog() {
 				</h2>
 
 				<p className="article-meta">
-					<strong className="article-author">
-						By Serah de Magic Fridge Team
-					</strong>
+					<strong className="article-author">By Serah Rietsch</strong>
 					<span className="article-dot"> • </span>
 					<time dateTime="2024-10-28">October 28, 2024</time>
 				</p>
