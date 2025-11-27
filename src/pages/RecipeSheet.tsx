@@ -70,14 +70,31 @@ export default function RecipeSheet() {
 		}
 	}
 
+	const title = recipe.strMeal;
+	const isLongTitle = title.length > 40;
+
 	return (
 		<main className="recipe-sheet">
 			<div ref={printRef}>
 				<header className="recipe-header">
 					<section className="recipe-hero">
 						<section className="recipe-hero-inner">
-							<section className="recipe-hero-text">
-								<h1>{recipe.strMeal}</h1>
+							<section
+								className={
+									isLongTitle
+										? "recipe-hero-text recipe-hero-text--dense"
+										: "recipe-hero-text"
+								}
+							>
+								<h1
+									className={
+										isLongTitle
+											? "recipe-title recipe-title--long"
+											: "recipe-title"
+									}
+								>
+									{recipe.strMeal}
+								</h1>
 
 								<section className="recipe-buttons">
 									<div className="recipe-buttons-row recipe-buttons-row--top">
