@@ -40,16 +40,6 @@ export default function NavBar() {
 			<ul className={`nav-links ${isMenuOpen ? "nav-links--open" : ""}`}>
 				<li>
 					<Link
-						to="/sign-up"
-						onClick={handleCloseMenu}
-						className={`nav-link ${isActive("/sign-up") ? "nav-link--active" : ""}`}
-					>
-						Sign up
-					</Link>
-				</li>
-
-				<li>
-					<Link
 						to="/blog"
 						onClick={handleCloseMenu}
 						className={`nav-link ${
@@ -59,7 +49,6 @@ export default function NavBar() {
 						Blog
 					</Link>
 				</li>
-
 				<li>
 					<Link
 						to="/favorite"
@@ -69,6 +58,15 @@ export default function NavBar() {
 						}`}
 					>
 						Favorites
+					</Link>
+				</li>
+				<li>
+					<Link
+						to="/sign-up"
+						onClick={handleCloseMenu}
+						className={`nav-link ${isActive("/sign-up") ? "nav-link--active" : ""}`}
+					>
+						Sign up
 					</Link>
 				</li>
 			</ul>

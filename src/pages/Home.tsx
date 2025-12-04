@@ -6,6 +6,7 @@ import { useTheme } from "../contexts/ThemeContext";
 import type { RecipeType } from "../types/recipe";
 import type { Ingredient, Recipe } from "../types/search";
 import { recipe_urls } from "../urls/recipe-urls";
+import prepTime from "../utils/prepTime";
 
 async function loadRecipes(): Promise<Recipe[]> {
 	const responses = await Promise.all(recipe_urls.map((url) => fetch(url)));
@@ -14,6 +15,8 @@ async function loadRecipes(): Promise<Recipe[]> {
 
 	recipes = recipes.map((recipe) => {
 		const ingredients: string[] = [];
+
+		const prTime: number = prepTime(recipe.strInstructions, recipe.idMeal);
 
 		for (let i = 1; i <= 20; i++) {
 			const ingredient = recipe[`strIngredient${i}` as keyof Recipe];
@@ -26,7 +29,7 @@ async function loadRecipes(): Promise<Recipe[]> {
 			}
 		}
 
-		return { ...recipe, ingredients };
+		return { ...recipe, ingredients, prTime };
 	});
 
 	return recipes;

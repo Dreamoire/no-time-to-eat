@@ -9,11 +9,13 @@ export function SuggestedRecipes({
 	recipes,
 	searchType,
 	mealIngBar,
+	timeIngBar,
 }: {
 	selectedIngredients: Ingredient[];
 	recipes: Recipe[];
 	searchType: SearchType;
 	mealIngBar: string;
+	timeIngBar: number;
 }) {
 	const { favoriteRecipes } = useFavorite();
 
@@ -43,9 +45,11 @@ export function SuggestedRecipes({
 		return hasAllSelectedIngredients;
 	});
 
-	const categoryFilteredRecipes = filteredRecipes.filter((recipe) =>
-		mealIngBar === "" ? true : recipe.strCategory === mealIngBar,
-	);
+	const categoryFilteredRecipes = filteredRecipes
+		.filter((recipe) =>
+			mealIngBar === "" ? true : recipe.strCategory === mealIngBar,
+		)
+		.filter((recipe) => timeIngBar >= recipe.prTime);
 
 	if (categoryFilteredRecipes.length === 0) {
 		return <p className="empty-recipe">No recipe found</p>;
@@ -59,10 +63,15 @@ export function SuggestedRecipes({
 	});
 
 	return (
-		<div className="recipe-results-container">
-			{sortedRecipes.map((recipe) => (
-				<RecipeCard key={recipe.idMeal} recipe={recipe as RecipeType} />
-			))}
-		</div>
+		<>
+			{sortedRecipes.length !== 0 && (
+				<p className="empty-recipe">{sortedRecipes.length} recipes found</p>
+			)}
+			<div className="recipe-results-container">
+				{sortedRecipes.map((recipe) => (
+					<RecipeCard key={recipe.idMeal} recipe={recipe as RecipeType} />
+				))}
+			</div>
+		</>
 	);
 }

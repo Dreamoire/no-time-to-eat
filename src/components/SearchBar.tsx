@@ -15,12 +15,12 @@ export function SearchBar({
 	recipes,
 	ingredients,
 }: { recipes: Recipe[]; ingredients: Ingredient[] }) {
-	const [timeRecipeBar, setTimeRecipeBar] = useState<number>(50);
+	const [timeRecipeBar, setTimeRecipeBar] = useState<number>(120);
 	const selectedTimeRecipeBar = (e: ChangeEvent<HTMLInputElement>) => {
 		setTimeRecipeBar(Number(e.target.value));
 	};
 
-	const [timeIngBar, setTimeIngBar] = useState<number>(50);
+	const [timeIngBar, setTimeIngBar] = useState<number>(120);
 	const selectedTimeIngBar = (e: ChangeEvent<HTMLInputElement>) => {
 		setTimeIngBar(Number(e.target.value));
 	};
@@ -33,11 +33,6 @@ export function SearchBar({
 	const [mealIngBar, setMealIngBar] = useState<string>("");
 	const selectedMealIngBar = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		setMealIngBar(e.target.value);
-	};
-
-	const [calorie, setCalorie] = useState<number>(500);
-	const selectedCalorie = (e: ChangeEvent<HTMLInputElement>) => {
-		setCalorie(Number(e.target.value));
 	};
 
 	const [compatibility, setCompatibility] = useState<number>(50);
@@ -79,9 +74,11 @@ export function SearchBar({
 					ingredient.strIngredient.toLowerCase().includes(search.toLowerCase()),
 				);
 
-	const finalRecipes = filteredRecipes.filter((recipe) =>
-		mealRecipeBar === "" ? true : recipe.strCategory === mealRecipeBar,
-	);
+	const finalRecipes = filteredRecipes
+		.filter((recipe) =>
+			mealRecipeBar === "" ? true : recipe.strCategory === mealRecipeBar,
+		)
+		.filter((recipe) => timeRecipeBar >= recipe.prTime);
 
 	const { theme, setTheme } = useTheme();
 	const { favoriteRecipes } = useFavorite();
@@ -93,7 +90,7 @@ export function SearchBar({
 		return Number(bIsFavorite) - Number(aIsFavorite);
 	});
 
-	const ref = useRef<HTMLButtonElement>(null);
+	const ref = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		function handleClickOutside(event: MouseEvent) {
@@ -149,12 +146,11 @@ export function SearchBar({
 					</button>
 				</div>
 				{searchType === "recipe" ? (
-					<div className="recipe-filter">
+					<div className="recipe-filter" ref={ref}>
 						<button
 							type="button"
 							onClick={toggleMenu}
 							className="button-filter"
-							ref={ref}
 						>
 							<img src="src\assets\images\filter.svg" alt="Icon filter" />
 						</button>
@@ -163,7 +159,7 @@ export function SearchBar({
 								className={`input-filter-recipe ${closing ? "closing" : "open"}`}
 							>
 								<label htmlFor="time">
-									Temps de préparation : {timeRecipeBar} min
+									Preparation time : {timeRecipeBar} min
 								</label>
 								<input
 									id="time"
@@ -197,18 +193,17 @@ export function SearchBar({
 												),
 										)}
 									</select>
-									<label htmlFor="meal">Meal's type</label>
+									<label htmlFor="meal">Meal</label>
 								</div>
 							</div>
 						)}
 					</div>
 				) : (
-					<div className="recipe-filter">
+					<div className="recipe-filter" ref={ref}>
 						<button
 							type="button"
 							onClick={toggleMenu}
 							className="button-filter"
-							ref={ref}
 						>
 							<img src="src\assets\images\filter.svg" alt="" />
 						</button>
@@ -217,7 +212,7 @@ export function SearchBar({
 								className={`input-filter-ingredient ${closing ? "closing" : "open"}`}
 							>
 								<label htmlFor="time">
-									Temps de préparation : {timeIngBar} min
+									Preparation time : {timeIngBar} min
 								</label>
 								<input
 									type="range"
@@ -250,7 +245,7 @@ export function SearchBar({
 												),
 										)}
 									</select>
-									<label htmlFor="meal">Meal's type</label>
+									<label htmlFor="meal">Meal</label>
 								</div>
 								<div className="input-form">
 									<input
@@ -264,21 +259,16 @@ export function SearchBar({
 									/>
 									<label htmlFor="number">Compatibilité en %</label>
 								</div>
-								<label htmlFor="time">calories max : {calorie} kcal</label>
-								<input
-									type="range"
-									min="0"
-									max="1000"
-									step="1"
-									value={calorie}
-									onChange={selectedCalorie}
-									className="stick-filter"
-								/>
 							</div>
 						)}
 					</div>
 				)}
 			</div>
+			{sortedFinalRecipes.length !== 0 && searchType === "recipe" && (
+				<p className="empty-recipe">
+					{sortedFinalRecipes.length} recipes found
+				</p>
+			)}
 			<div className="search-results">
 				{searchType === "recipe" && (
 					<div className="recipe-results-container">
@@ -328,6 +318,7 @@ export function SearchBar({
 					recipes={recipes}
 					searchType={searchType}
 					mealIngBar={mealIngBar}
+					timeIngBar={timeIngBar}
 				/>
 			</div>
 		</div>

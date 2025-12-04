@@ -3,4 +3,5 @@ export interface RecipeType {
 	strMeal: string;
 	strMealThumb: string;
 	strInstructions: string;
+	prTime: number;
 }
