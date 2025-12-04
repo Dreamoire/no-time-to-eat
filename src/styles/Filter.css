@@ -1,28 +1,47 @@
 .recipe-filter {
 	color: var(--text-color-wht);
-	width: 20em;
 	display: flex;
 	flex-direction: column;
-	align-items: flex-end;
+	align-items: flex-start;
 	font-family: var(--text-font);
 	font-size: 1.2em;
+	position: relative;
 }
 
 .button-filter {
 	background-color: var(--bg-color-lightred);
-	border: solid rgba(0, 0, 0, 0.3);
-	height: 67.2px;
-	width: 67.2px;
-	img {
-		height: 3em;
-	}
+	border-color: rgba(0, 0, 0, 0.3);
+	height: var(--control-height);
+	width: var(--control-height);
+}
+
+.button-filter img {
+	display: block;
+	max-width: 95%;
+	max-height: 95%;
+	height: auto;
+	width: auto;
 }
 
 .button-filter:hover {
 	opacity: 0.5;
 }
 
-.input-filter {
+.input-filter-recipe {
+	display: flex;
+	flex-direction: column;
+	background-color: var(--bg-color-brightred);
+	padding: 2em;
+	gap: 1em;
+	overflow: hidden;
+	transform-origin: top;
+	position: absolute;
+	z-index: 1000;
+	top: calc(100% + 0.2rem);
+	left: 0;
+}
+
+.input-filter-ingredient {
 	display: flex;
 	flex-direction: column;
 	background-color: var(--bg-color-darkred);
@@ -30,13 +49,25 @@
 	gap: 1em;
 	overflow: hidden;
 	transform-origin: top;
+	position: absolute;
+	z-index: 1000;
+	top: calc(100% + 0.2rem);
+	left: 0;
 }
 
-.input-filter.open {
+.input-filter-recipe.open {
 	animation: slideDown 0.3s ease forwards;
 }
 
-.input-filter.closing {
+.input-filter-ingredient.open {
+	animation: slideDown 0.3s ease forwards;
+}
+
+.input-filter-recipe.closing {
+	animation: slideUp 0.3s ease forwards;
+}
+
+.input-filter-ingredient.closing {
 	animation: slideUp 0.3s ease forwards;
 }
 
@@ -93,4 +124,5 @@ input[type="range"]::-webkit-slider-thumb {
 
 .input-form {
 	display: flex;
+	justify-content: space-between;
 }

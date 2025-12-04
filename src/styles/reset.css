@@ -7,10 +7,12 @@
 * {
 	margin: 0;
 }
-
+html,
 body {
 	line-height: 1.5;
 	-webkit-font-smoothing: antialiased;
+	width: 100%;
+	max-width: 100%;
 }
 
 img,
@@ -54,4 +56,9 @@ h6 {
 #root,
 #__next {
 	isolation: isolate;
+}
+
+figure {
+	margin: 0 !important;
+	padding: 0;
 }

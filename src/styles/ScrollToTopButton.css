@@ -1,0 +1,32 @@
+.scroll-to-top {
+	position: fixed;
+	bottom: clamp(1rem, 2vw, 2rem);
+	right: clamp(1rem, 2vw, 2rem);
+
+	width: clamp(35px, 7vw, 50px);
+	height: clamp(35px, 7vw, 50px);
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	border-radius: 50%;
+	border: 1px solid var(--text-color-blk);
+	background-color: var(--bg-color);
+	color: var(--text-color-blk);
+
+	font-size: clamp(1rem, 3vw, 1.5rem);
+	font-weight: 700;
+	cursor: pointer;
+	z-index: 1000;
+	opacity: 60%;
+
+	transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.scroll-to-top:hover {
+	transform: translateY(-4px);
+	background-color: var(--bg-color-brightred);
+	color: #fff;
+	opacity: 100%;
+}

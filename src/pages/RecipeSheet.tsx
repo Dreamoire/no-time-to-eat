@@ -3,15 +3,17 @@ import { useParams } from "react-router";
 import { useReactToPrint } from "react-to-print";
 import cookingTimeIcon from "../assets/images/cooking-time.png";
 import eatingPersonIcon from "../assets/images/eating-person.png";
-import favoriteIcon from "../assets/images/favoris_empty.png";
 import printerIcon from "../assets/images/printer.png";
 import CalorieInfo from "../components/CalorieInfo";
 import type { Recipe } from "../types/meal";
 
 import "../styles/RecipeSheet.css";
+import FavoriteButton from "../components/FavoriteButton";
+import type { RecipeType } from "../types/recipe";
+import prepTime from "../utils/prepTime";
 
 export default function RecipeSheet() {
-	const [recipe, setRecipe] = useState<Recipe | null>(null);
+	const [recipe, setRecipe] = useState<RecipeType | null>(null);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 	const { id } = useParams<{ id: string }>();
@@ -59,71 +61,108 @@ export default function RecipeSheet() {
 	}
 
 	const ingredients: string[] = [];
-	for (let i = 1; i <= 20; i += 1) {
-		const ing = recipe[`strIngredient${i}`];
-		const measure = recipe[`strMeasure${i}`];
+	const ingredientsLoading: string[] = [];
 
-		if (ing && ing.trim() !== "") {
-			ingredients.push(`${ing} - ${measure ?? ""}`.trim());
+	const ing = Object.values(recipe).slice(9, 29);
+	const measure = Object.values(recipe).slice(29, 49);
+	const space = " - ";
+
+	for (let i = 0; i <= 19; i++) {
+		if (
+			typeof ing[i] !== "string" ||
+			ing[i] !== "" ||
+			ing[i] !== " " ||
+			typeof measure[i] === "string" ||
+			measure[i] !== "" ||
+			measure[i] !== " "
+		) {
+			const calorieSearch = ((ing[i] as string) +
+				space +
+				(measure[i] === " " ? "to taste" : measure[i])) as string;
+			ingredientsLoading.push(calorieSearch);
 		}
 	}
+
+	for (let i = 0; i <= 19; i++) {
+		if (
+			ingredientsLoading[i] !== " " &&
+			ingredientsLoading[i] !== "" &&
+			typeof ingredientsLoading[i] === "string" &&
+			ingredientsLoading[i] !== " - " &&
+			ingredientsLoading[i] !== " -  " &&
+			ingredientsLoading[i] !== " - to taste"
+		) {
+			ingredients.push(ingredientsLoading[i]);
+		}
+	}
+
+	const title = recipe.strMeal;
+	const isLongTitle = title.length > 38;
+
+	const prTime: number = prepTime(recipe.strInstructions, recipe.idMeal);
 
 	return (
 		<main className="recipe-sheet">
 			<div ref={printRef}>
 				<header className="recipe-header">
 					<section className="recipe-hero">
-						<section className="recipe-hero-text">
-							<p>recette</p>
-							<h1>{recipe.strMeal}</h1>
+						<section className="recipe-hero-inner">
+							<section
+								className={
+									isLongTitle
+										? "recipe-hero-text recipe-hero-text--dense"
+										: "recipe-hero-text"
+								}
+							>
+								<h1
+									className={
+										isLongTitle
+											? "recipe-title recipe-title--long"
+											: "recipe-title"
+									}
+								>
+									{recipe.strMeal}
+								</h1>
 
-							<section className="recipe-buttons">
-								<div className="recipe-buttons-row recipe-buttons-row--top">
-									<button
-										type="button"
-										className="icon-button icon-button--primary icon-button--favorite"
-										title="Favorites"
-									>
-										<img src={favoriteIcon} alt="Add to favorites" />
-									</button>
-									<button
-										type="button"
-										onClick={handlePrint}
-										className="icon-button icon-button--primary icon-button--print"
-										title="Print"
-									>
-										<img src={printerIcon} alt="Print the recipe" />
-									</button>
-								</div>
-
-								<CalorieInfo meal={recipe} className="recipe-kcal-styled" />
-
-								<ul className="recipe-tags recipe-buttons-row recipe-buttons-row--bottom">
-									<li title="cooking time: 30 min">
+								<section className="recipe-buttons">
+									<div className="recipe-buttons-row recipe-buttons-row--top">
+										<FavoriteButton recipe={recipe} />
 										<button
 											type="button"
-											className="icon-button icon-button--info"
-											aria-label="cooking time: 30 min"
+											onClick={handlePrint}
+											className="icon-button icon-button--primary icon-button--print"
+											title="Print"
 										>
-											<img src={cookingTimeIcon} alt="" />
+											<img src={printerIcon} alt="Print the recipe" />
 										</button>
-										<span className="recipe-tag-text">30 min</span>
-									</li>
+									</div>
 
-									<li title="serves 6 people">
-										<button
-											type="button"
-											className="icon-button icon-button--info"
-											aria-label="serves 6 people"
-										>
-											<img src={eatingPersonIcon} alt="" />
-										</button>
-										<span className="recipe-tag-text">6 people</span>
-									</li>
-								</ul>
+									<CalorieInfo meal={recipe} className="recipe-kcal-styled" />
+
+									<ul className="recipe-tags recipe-buttons-row recipe-buttons-row--bottom">
+										<li title="cooking time: 30 min">
+											<div
+												className="icon-static icon-static--info"
+												aria-hidden="true"
+											>
+												<img src={cookingTimeIcon} alt="cooking time" />
+											</div>
+											<span className="recipe-tag-text">{prTime} min</span>
+										</li>
+
+										<li title="serves 6 people">
+											<div
+												className="icon-static icon-static--info"
+												aria-hidden="true"
+											>
+												<img src={eatingPersonIcon} alt="serves" />
+											</div>
+											<span className="recipe-tag-text">6 people</span>
+										</li>
+									</ul>
+								</section>
 							</section>
 						</section>
-
 						<figure className="recipe-hero-figure">
 							<img src={recipe.strMealThumb} alt={recipe.strMeal} />
 						</figure>
@@ -151,10 +190,6 @@ export default function RecipeSheet() {
 					</article>
 				</section>
 			</div>
-
-			<footer className="recipe-footer">
-				<p>© Magic Fridge - 2025</p>
-			</footer>
 		</main>
 	);
 }

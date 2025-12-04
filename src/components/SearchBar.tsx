@@ -1,57 +1,61 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "../styles/SearchBar.css";
-import { recipe_urls } from "../urls/recipe-urls.ts";
+import "../styles/Filter.css";
+import type { ChangeEvent } from "react";
+import { useFavorite } from "../contexts/FavoriteContext.tsx";
+import { useTheme } from "../contexts/ThemeContext.tsx";
+import type { RecipeType } from "../types/recipe.ts";
+import type { Ingredient, Recipe, SearchType } from "../types/search.ts";
 import { FilteredIngredients } from "./FilteredIngredients";
+import RecipeCard from "./RecipeCard.tsx";
 import { SelectedIngredients } from "./SelectedIngredients";
 import { SuggestedRecipes } from "./SuggestedRecipes";
 
-import type { Ingredient, Recipe, SearchType } from "../types/search.ts";
+export function SearchBar({
+	recipes,
+	ingredients,
+}: { recipes: Recipe[]; ingredients: Ingredient[] }) {
+	const [timeRecipeBar, setTimeRecipeBar] = useState<number>(120);
+	const selectedTimeRecipeBar = (e: ChangeEvent<HTMLInputElement>) => {
+		setTimeRecipeBar(Number(e.target.value));
+	};
 
-async function loadRecipes(): Promise<Recipe[]> {
-	const responses = await Promise.all(recipe_urls.map((url) => fetch(url)));
-	const results = await Promise.all(responses.map((res) => res.json()));
-	let recipes: Recipe[] = results.flatMap((recipe) => recipe.meals || []);
+	const [timeIngBar, setTimeIngBar] = useState<number>(120);
+	const selectedTimeIngBar = (e: ChangeEvent<HTMLInputElement>) => {
+		setTimeIngBar(Number(e.target.value));
+	};
 
-	recipes = recipes.map((recipe) => {
-		const ingredients: string[] = [];
+	const [mealRecipeBar, setMealRecipeBar] = useState<string>("");
+	const selectedMealRecipeBar = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		setMealRecipeBar(e.target.value);
+	};
 
-		for (let i = 1; i <= 20; i++) {
-			const ingredient = recipe[`strIngredient${i}` as keyof Recipe];
-			if (
-				ingredient &&
-				typeof ingredient === "string" &&
-				ingredient.trim() !== ""
-			) {
-				ingredients.push(ingredient);
-			}
+	const [mealIngBar, setMealIngBar] = useState<string>("");
+	const selectedMealIngBar = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		setMealIngBar(e.target.value);
+	};
+
+	const [compatibility, setCompatibility] = useState<number>(20);
+	const selectedCompatibility = (e: ChangeEvent<HTMLInputElement>) => {
+		setCompatibility(Number(e.target.value));
+	};
+
+	const [open, setOpen] = useState(false);
+	const [closing, setClosing] = useState(false);
+	const toggleMenu = () => {
+		if (open) {
+			setClosing(true);
+			setTimeout(() => {
+				setOpen(false);
+				setClosing(false);
+			}, 300);
+		} else {
+			setOpen(true);
 		}
-
-		return { ...recipe, ingredients };
-	});
-
-	return recipes;
-}
-
-async function loadIngredients() {
-	const response = await fetch(
-		"https://www.themealdb.com/api/json/v1/1/list.php?i=list",
-	);
-	const result = await response.json();
-	return result.meals as Ingredient[];
-}
-
-export function SearchBar() {
-	const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+	};
 	const [selectedIngredients, setSelectedIngredients] = useState<Ingredient[]>(
 		[],
 	);
-	const [recipes, setRecipes] = useState<Recipe[]>([]);
-	useEffect(() => {
-		loadRecipes().then((recipesFromApi) => setRecipes(recipesFromApi));
-		loadIngredients().then((ingredientsFromAPI) =>
-			setIngredients(ingredientsFromAPI),
-		);
-	}, []);
 
 	const [searchType, setSearchType] = useState<SearchType>("ingredient");
 	const [search, setSearch] = useState<string>("");
@@ -70,6 +74,36 @@ export function SearchBar() {
 					ingredient.strIngredient.toLowerCase().includes(search.toLowerCase()),
 				);
 
+	const finalRecipes = filteredRecipes
+		.filter((recipe) =>
+			mealRecipeBar === "" ? true : recipe.strCategory === mealRecipeBar,
+		)
+		.filter((recipe) => timeRecipeBar >= recipe.prTime);
+
+	const { theme, setTheme } = useTheme();
+	const { favoriteRecipes } = useFavorite();
+
+	const favoriteIds = new Set(favoriteRecipes.map((fav) => fav.idMeal));
+	const sortedFinalRecipes = [...finalRecipes].sort((a, b) => {
+		const aIsFavorite = favoriteIds.has(a.idMeal);
+		const bIsFavorite = favoriteIds.has(b.idMeal);
+		return Number(bIsFavorite) - Number(aIsFavorite);
+	});
+
+	const ref = useRef<HTMLDivElement>(null);
+
+	useEffect(() => {
+		function handleClickOutside(event: MouseEvent) {
+			if (ref.current && !ref.current.contains(event.target as Node)) {
+				setOpen(false);
+			}
+		}
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => {
+			document.removeEventListener("mousedown", handleClickOutside);
+		};
+	}, []);
+
 	return (
 		<div>
 			<div className="search">
@@ -86,9 +120,10 @@ export function SearchBar() {
 						checked={searchType === "ingredient"}
 						id="switch"
 						name="switch"
-						onChange={() =>
-							setSearchType(searchType !== "recipe" ? "recipe" : "ingredient")
-						}
+						onChange={() => {
+							setSearchType(searchType !== "recipe" ? "recipe" : "ingredient");
+							setTheme(!theme);
+						}}
 					/>
 					<label htmlFor="switch">""</label>
 				</div>
@@ -98,7 +133,7 @@ export function SearchBar() {
 						placeholder={
 							searchType === "recipe"
 								? "Search a recipe"
-								: "Enter your ingredients"
+								: "Search by ingredients"
 						}
 						value={search}
 						className="search-input"
@@ -110,13 +145,142 @@ export function SearchBar() {
 						<img src="src/assets/images/search.png" alt="Search icon" />
 					</button>
 				</div>
+				{searchType === "recipe" ? (
+					<div className="recipe-filter" ref={ref}>
+						<button
+							type="button"
+							onClick={toggleMenu}
+							className="button-filter"
+						>
+							<img src="src\assets\images\filter.svg" alt="Icon filter" />
+						</button>
+						{(open || closing) && (
+							<div
+								className={`input-filter-recipe ${closing ? "closing" : "open"}`}
+							>
+								<label htmlFor="time">
+									Preparation time : {timeRecipeBar} min
+								</label>
+								<input
+									id="time"
+									type="range"
+									min="0"
+									max="120"
+									step="1"
+									value={timeRecipeBar}
+									onChange={selectedTimeRecipeBar}
+									className="stick-filter"
+								/>
+								<div className="input-form">
+									<select
+										id="meal"
+										value={mealRecipeBar}
+										onChange={selectedMealRecipeBar}
+										className="input"
+									>
+										<option value={""}>All</option>
+										{recipes.map(
+											(recipe, index) =>
+												recipes.findIndex(
+													(r) => r.strCategory === recipe.strCategory,
+												) === index && (
+													<option
+														key={recipe.idMeal}
+														value={recipe.strCategory ?? ""}
+													>
+														{recipe.strCategory}
+													</option>
+												),
+										)}
+									</select>
+									<label htmlFor="meal">Meal</label>
+								</div>
+							</div>
+						)}
+					</div>
+				) : (
+					<div className="recipe-filter" ref={ref}>
+						<button
+							type="button"
+							onClick={toggleMenu}
+							className="button-filter"
+						>
+							<img src="src\assets\images\filter.svg" alt="" />
+						</button>
+						{(open || closing) && (
+							<div
+								className={`input-filter-ingredient ${closing ? "closing" : "open"}`}
+							>
+								<label htmlFor="time">
+									Preparation time : {timeIngBar} min
+								</label>
+								<input
+									type="range"
+									min="0"
+									max="120"
+									step="1"
+									value={timeIngBar}
+									onChange={selectedTimeIngBar}
+									className="stick-filter"
+								/>
+								<div className="input-form">
+									<select
+										id="meal"
+										value={mealIngBar}
+										onChange={selectedMealIngBar}
+										className="input"
+									>
+										<option value={""}>All</option>
+										{recipes.map(
+											(recipe, index) =>
+												recipes.findIndex(
+													(r) => r.strCategory === recipe.strCategory,
+												) === index && (
+													<option
+														key={recipe.idMeal}
+														value={recipe.strCategory ?? ""}
+													>
+														{recipe.strCategory}
+													</option>
+												),
+										)}
+									</select>
+									<label htmlFor="meal">Meal</label>
+								</div>
+								<div className="input-form">
+									<input
+										type="number"
+										min="0"
+										max="20"
+										step="1"
+										className="input"
+										value={compatibility}
+										onChange={selectedCompatibility}
+									/>
+									<label htmlFor="number">Ingredients</label>
+								</div>
+							</div>
+						)}
+					</div>
+				)}
 			</div>
+			{sortedFinalRecipes.length !== 0 && searchType === "recipe" && (
+				<p className="empty-recipe">
+					{sortedFinalRecipes.length} recipes found
+				</p>
+			)}
 			<div className="search-results">
-				{searchType === "recipe"
-					? filteredRecipes.map((recipe) => (
-							<li key={recipe.idMeal}>{recipe.strMeal}</li>
-						))
-					: null}
+				{searchType === "recipe" && (
+					<div className="recipe-results-container">
+						{search.trim() === "" ? null : sortedFinalRecipes.length === 0 ? (
+							<div className="empty-recipe">No recipe found</div>
+						) : (
+							sortedFinalRecipes.map((recipe) => (
+								<RecipeCard key={recipe.idMeal} recipe={recipe as RecipeType} />
+							))
+						)}
+					</div>
+				)}
 
 				<FilteredIngredients
 					searchType={searchType}
@@ -153,6 +317,9 @@ export function SearchBar() {
 					selectedIngredients={selectedIngredients}
 					recipes={recipes}
 					searchType={searchType}
+					mealIngBar={mealIngBar}
+					timeIngBar={timeIngBar}
+					NbrIng={compatibility}
 				/>
 			</div>
 		</div>

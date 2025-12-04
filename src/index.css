@@ -1,16 +1,18 @@
 @font-face {
 	font-family: "ArchivoNarrow";
-	src: url(src/assets/fonts/ArchivoNarrow.ttf);
+	src: url("./assets/fonts/ArchivoNarrow.ttf") format("truetype");
+	font-style: normal;
 }
 
 @font-face {
 	font-family: "PPRight";
-	src: url(src/assets/fonts/PPRight.otf);
+	src: url("./assets/fonts/PPRight.otf") format("opentype");
+	font-style: normal;
 }
 
 :root {
-	--title-font: "PPRight", "Montsserat";
-	--text-font: "ArchivoNarrow", "Lora", serif;
+	--title-font: "PPRight", "Montsserat", serif;
+	--text-font: "ArchivoNarrow", "Lora", sans-serif;
 	--bg-color: rgba(254, 251, 249, 1);
 	--text-color-blk: rgba(0, 0, 0, 1);
 	--bg-color-fiche: rgba(223, 214, 205, 0.29);
@@ -18,5 +20,31 @@
 	--bg-color-brightred: rgba(230, 59, 68, 1);
 	--text-color-wht: rgba(255, 255, 255, 1);
 	--text-color-ftr: rgba(136, 132, 132, 1);
-	--border-color: rgba(0, 0, 0, 0.3); /*transparence 30%*/
+	--border-color: rgba(0, 0, 0, 0.3);
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+	background-color: var(--bg-color);
+	font-family: var(--text-font);
+	position: relative;
+	min-height: 100vh;
+}
+
+h1 {
+	font-family: var(--title-font);
+}
+body::before {
+	content: "";
+	position: fixed;
+	inset: 0;
+	top: 20rem;
+	background-image: url("/src/assets/images/bg-all.jpg");
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	opacity: 0.4;
+	pointer-events: none;
 }

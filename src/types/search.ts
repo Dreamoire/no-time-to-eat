@@ -4,7 +4,7 @@ export type Recipe = {
 	strMealAlternate: string | null;
 	strCategory: string | null;
 	strArea: string | null;
-	strInstructions: string | null;
+	strInstructions: string;
 	strMealThumb: string | null;
 	strTags: string | null;
 	strYoutube: string | null;
@@ -31,7 +31,7 @@ export type Recipe = {
 	strIngredient20: string | null;
 
 	ingredients: string[];
-
+	prTime: number;
 	strSource: string | null;
 	strImageSource: string | null;
 	strCreativeCommonsConfirmed: string | null;

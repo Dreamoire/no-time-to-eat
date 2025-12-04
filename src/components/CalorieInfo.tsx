@@ -1,116 +1,87 @@
 import { useEffect, useState } from "react";
+import type { Recipe } from "../types/meal";
+import { computeCaloriesPer100g, fetchNutrition } from "../utils/calorieApi";
 
-type Meal = {
-	strMeal: string;
-	strMealThumb: string;
-	strInstructions: string;
-} & Record<string, string | null>;
-
-type NutritionItem = {
-	calories: number;
-	serving_size_g: number;
-};
-
-type NutritionResponse = {
-	items: NutritionItem[];
-};
-
-const CALORIE_API_KEY = import.meta.env.VITE_CALORIE_NINJA_KEY as string;
-
-// La boucle va jusqu’à 20 car l’API TheMealDB fournit
-// 20 emplacements possibles: strIngredient1 à strIngredient20.
-
-function extractIngredients(meal: Meal): string[] {
+function extractIngredients(meal: Recipe): string[] {
 	const list: string[] = [];
+	const listFinal: string[] = [];
 
-	for (let i = 1; i <= 20; i += 1) {
-		const ing = meal[`strIngredient${i}`];
-		const measure = meal[`strMeasure${i}`];
+	const ing = Object.values(meal).slice(9, 29);
+	const measure = Object.values(meal).slice(29, 49);
 
-		if (ing && ing.trim() !== "") {
-			list.push(`${measure ?? ""} ${ing}`.trim());
+	for (let i = 0; i <= 19; i++) {
+		if (
+			typeof ing[i] !== "string" ||
+			ing[i] !== "" ||
+			ing[i] !== " " ||
+			typeof measure[i] === "string" ||
+			measure[i] !== "" ||
+			measure[i] !== " "
+		) {
+			const calorieSearch = ((measure[i] as string) + ing[i]) as string;
+			list.push(calorieSearch);
 		}
 	}
 
-	return list;
+	for (let i = 0; i <= 19; i++) {
+		if (list[i] !== " " && list[i] !== "") {
+			listFinal.push(list[i]);
+		}
+	}
+
+	return listFinal;
 }
+
+type CalorieInfoProps = {
+	meal: Recipe;
+	className?: string;
+};
 
 export default function CalorieInfo({
 	meal,
 	className = "",
-}: {
-	meal: Meal;
-	className?: string;
-}) {
+}: CalorieInfoProps) {
 	const [caloriesPer100g, setCaloriesPer100g] = useState<number | null>(null);
 	const [error, setError] = useState<string | null>(null);
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		const ingredients = extractIngredients(meal);
+
 		if (ingredients.length === 0) {
 			setCaloriesPer100g(null);
+			setLoading(false);
 			return;
 		}
 
 		const query = ingredients.join(", ");
 
-		const fetchCalories = async () => {
+		const loadCalories = async () => {
 			try {
 				setError(null);
+				setLoading(true);
 
-				const response = await fetch(
-					`https://api.calorieninjas.com/v1/nutrition?query=${encodeURIComponent(
-						query,
-					)}`,
-					{
-						headers: {
-							"X-Api-Key": CALORIE_API_KEY,
-						},
-					},
-				);
+				const data = await fetchNutrition(query);
+				const per100 = computeCaloriesPer100g(data);
 
-				if (!response.ok) {
-					throw new Error("API error");
-				}
-
-				const data = (await response.json()) as NutritionResponse;
-
-				if (!data.items || data.items.length === 0) {
-					setCaloriesPer100g(null);
-					return;
-				}
-
-				const totalCalories = data.items.reduce(
-					(sum, item) => sum + item.calories,
-					0,
-				);
-
-				const totalWeight = data.items.reduce(
-					(sum, item) => sum + item.serving_size_g,
-					0,
-				);
-
-				if (totalWeight > 0) {
-					const per100 = (totalCalories / totalWeight) * 100;
-					setCaloriesPer100g(Math.round(per100));
-				} else {
-					setCaloriesPer100g(null);
-				}
+				setCaloriesPer100g(per100);
 			} catch {
 				setError("Unable to calculate calories");
 				setCaloriesPer100g(null);
+			} finally {
+				setLoading(false);
 			}
 		};
 
-		void fetchCalories();
+		void loadCalories();
 	}, [meal]);
 
-	if (error) {
-		return <span className={`recipe-kcal ${className}`}>Calories: N/A</span>;
+	if (loading) {
+		return <span className={`recipe-kcal ${className}`}>Loading...</span>;
 	}
 
-	if (caloriesPer100g === null) {
-		return <span className={`recipe-kcal ${className}`}>Loading...</span>;
+	if (error || caloriesPer100g === null) {
+		return <span className={`recipe-kcal ${className}`}>Calories: N/A</span>;
 	}
 
 	return (
