@@ -28,8 +28,11 @@ function extractIngredients(meal: Recipe): string[] {
 	const list: string[] = [];
 
 	for (let i = 1; i <= 20; i += 1) {
-		const ing = meal[`strIngredient${i}`];
-		const measure = meal[`strMeasure${i}`];
+		const ingredientKey = `strIngredient${i}` as keyof typeof meal;
+		const measureKey = `strMeasure${i}` as keyof typeof meal;
+
+		const ing = meal[ingredientKey] as string | null | undefined;
+		const measure = meal[measureKey] as string | null | undefined;
 
 		if (ing && ing.trim() !== "") {
 			list.push(`${measure ?? ""} ${ing}`.trim());
