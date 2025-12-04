@@ -4,4 +4,4 @@ export type Recipe = {
 	strMealThumb: string;
 	strInstructions: string;
 	prTime: number;
-}
+};
