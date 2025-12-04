@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "../styles/SearchBar.css";
 import "../styles/Filter.css";
 import type { ChangeEvent } from "react";
@@ -93,6 +93,20 @@ export function SearchBar({
 		return Number(bIsFavorite) - Number(aIsFavorite);
 	});
 
+	const ref = useRef<HTMLButtonElement>(null);
+
+	useEffect(() => {
+		function handleClickOutside(event: MouseEvent) {
+			if (ref.current && !ref.current.contains(event.target as Node)) {
+				setOpen(false);
+			}
+		}
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => {
+			document.removeEventListener("mousedown", handleClickOutside);
+		};
+	}, []);
+
 	return (
 		<div>
 			<div className="search">
@@ -140,6 +154,7 @@ export function SearchBar({
 							type="button"
 							onClick={toggleMenu}
 							className="button-filter"
+							ref={ref}
 						>
 							<img src="src\assets\images\filter.svg" alt="Icon filter" />
 						</button>
@@ -193,6 +208,7 @@ export function SearchBar({
 							type="button"
 							onClick={toggleMenu}
 							className="button-filter"
+							ref={ref}
 						>
 							<img src="src\assets\images\filter.svg" alt="" />
 						</button>

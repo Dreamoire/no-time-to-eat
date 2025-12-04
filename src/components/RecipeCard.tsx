@@ -14,16 +14,21 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
 	return (
 		<>
 			<article className="recipe-card">
-				<img
-					src={recipe.strMealThumb}
-					alt={recipe.strMeal}
-					className="recipe-card-picture"
-				/>
-				<h2>
-					{recipe.strMeal.length >= 30
-						? `${recipe.strMeal.slice(0, 30)}...`
-						: recipe.strMeal}
-				</h2>
+				<Link
+					to={`/recipe/${recipe.idMeal}`}
+					style={{ textDecoration: "none", color: "black" }}
+				>
+					<img
+						src={recipe.strMealThumb}
+						alt={recipe.strMeal}
+						className="recipe-card-picture"
+					/>
+					<h2>
+						{recipe.strMeal.length >= 30
+							? `${recipe.strMeal.slice(0, 30)}...`
+							: recipe.strMeal}
+					</h2>
+				</Link>
 				<hr />
 				<span className="recipe-card-infos">
 					<p className="recipe-card-prep-time">
