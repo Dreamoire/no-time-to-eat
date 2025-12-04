@@ -124,4 +124,5 @@ input[type="range"]::-webkit-slider-thumb {
 
 .input-form {
 	display: flex;
+	justify-content: space-between;
 }

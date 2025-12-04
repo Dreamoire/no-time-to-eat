@@ -35,7 +35,7 @@ export function SearchBar({
 		setMealIngBar(e.target.value);
 	};
 
-	const [compatibility, setCompatibility] = useState<number>(50);
+	const [compatibility, setCompatibility] = useState<number>(20);
 	const selectedCompatibility = (e: ChangeEvent<HTMLInputElement>) => {
 		setCompatibility(Number(e.target.value));
 	};
@@ -251,13 +251,13 @@ export function SearchBar({
 									<input
 										type="number"
 										min="0"
-										max="100"
-										step="10"
+										max="20"
+										step="1"
 										className="input"
 										value={compatibility}
 										onChange={selectedCompatibility}
 									/>
-									<label htmlFor="number">Compatibilité en %</label>
+									<label htmlFor="number">Ingredients</label>
 								</div>
 							</div>
 						)}
@@ -319,6 +319,7 @@ export function SearchBar({
 					searchType={searchType}
 					mealIngBar={mealIngBar}
 					timeIngBar={timeIngBar}
+					NbrIng={compatibility}
 				/>
 			</div>
 		</div>

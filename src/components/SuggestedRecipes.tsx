@@ -10,12 +10,14 @@ export function SuggestedRecipes({
 	searchType,
 	mealIngBar,
 	timeIngBar,
+	NbrIng,
 }: {
 	selectedIngredients: Ingredient[];
 	recipes: Recipe[];
 	searchType: SearchType;
 	mealIngBar: string;
 	timeIngBar: number;
+	NbrIng: number;
 }) {
 	const { favoriteRecipes } = useFavorite();
 
@@ -49,7 +51,8 @@ export function SuggestedRecipes({
 		.filter((recipe) =>
 			mealIngBar === "" ? true : recipe.strCategory === mealIngBar,
 		)
-		.filter((recipe) => timeIngBar >= recipe.prTime);
+		.filter((recipe) => timeIngBar >= recipe.prTime)
+		.filter((recipe) => NbrIng >= recipe.ingredients.length);
 
 	if (categoryFilteredRecipes.length === 0) {
 		return <p className="empty-recipe">No recipe found</p>;
