@@ -209,7 +209,7 @@ export default function Blog() {
 							rel="noopener noreferrer"
 							className="article-author-link"
 						>
-							Serah Rietsch
+							Serah Abijo
 						</a>
 					</strong>
 					<span className="article-dot"> • </span>
