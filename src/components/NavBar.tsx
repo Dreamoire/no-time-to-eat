@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Form, Link, useLocation } from "react-router";
+import { Link, useLocation } from "react-router";
 import logo from "../assets/images/logo.png";
 import "../styles/NavBar.css";
 

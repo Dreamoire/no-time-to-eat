@@ -10,8 +10,8 @@ import { FilteredIngredients } from "./FilteredIngredients";
 import RecipeCard from "./RecipeCard.tsx";
 import { SelectedIngredients } from "./SelectedIngredients";
 import { SuggestedRecipes } from "./SuggestedRecipes";
-import search from "../assets/images/search.png";
-import filter from "../assets/images/filter.svg";
+import searchIcon from "../assets/images/search.png";
+import filterIcon from "../assets/images/filter.svg";
 
 export function SearchBar({
 	recipes,
@@ -144,7 +144,7 @@ export function SearchBar({
 						}}
 					/>
 					<button type="button" className="search-btn">
-						<img src={search} alt="Search icon" />
+						<img src={searchIcon} alt="Search icon" />
 					</button>
 				</div>
 				{searchType === "recipe" ? (
@@ -154,7 +154,7 @@ export function SearchBar({
 							onClick={toggleMenu}
 							className="button-filter"
 						>
-							<img src={filter} alt="Icon filter" />
+							<img src={filterIcon} alt="Icon filter" />
 						</button>
 						{(open || closing) && (
 							<div
@@ -207,7 +207,7 @@ export function SearchBar({
 							onClick={toggleMenu}
 							className="button-filter"
 						>
-							<img src={filter} alt="Icon filter" />
+							<img src={filterIcon} alt="Icon filter" />
 						</button>
 						{(open || closing) && (
 							<div
