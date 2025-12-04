@@ -2,25 +2,41 @@
 	position: relative;
 	width: 100%;
 	max-width: 1000px;
-	margin: 100px auto;
+	margin: clamp(40px, 8vw, 100px) auto;
+	padding-inline: clamp(16px, 4vw, 32px);
 }
 
 .carousel-title {
-	margin-bottom: 20px;
+	margin-bottom: clamp(12px, 2vw, 24px);
 	text-align: center;
+	font-size: clamp(1.4rem, 2.6vw, 2rem);
 }
 
 .carousel-inner {
 	position: relative;
+	background-color: rgba(223, 214, 205, 0.3);
+	border-radius: 10px;
+	padding: clamp(6px, 2vw, 16px);
+}
+
+.carousel-inner::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	box-shadow: inset 0 14px 15px rgba(223, 214, 205, 0.7);
+	border-radius: 10px;
+	z-index: 0;
+	pointer-events: none;
 }
 
 .carousel-track {
 	display: flex;
-	gap: 50px;
+	gap: clamp(16px, 3vw, 40px);
 	overflow-x: auto;
 	scroll-behavior: smooth;
-	padding: 8px, 0px;
+	padding-block: clamp(3px, 0.8vw, 8px);
 	scrollbar-width: none;
+	scroll-snap-type: x mandatory;
 }
 
 .carousel-track::-webkit-scrollbar {
@@ -29,6 +45,7 @@
 
 .carousel-item {
 	flex: 0 0 auto;
+	scroll-snap-align: center;
 }
 
 .carousel-btn {
@@ -38,27 +55,75 @@
 	border: none;
 	background: var(--bg-color-darkred);
 	color: white;
-	width: 32px;
-	height: 32px;
+	width: clamp(32px, 4vw, 44px);
+	height: clamp(32px, 4vw, 44px);
 	border-radius: 999px;
+	box-shadow: 0 8px 8px rgba(223, 214, 205, 0.8);
 	cursor: pointer;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	z-index: 1;
+	z-index: 2;
 }
 
 .carousel-btn-left {
-	left: -35px;
+	left: clamp(-26px, -3vw, -35px);
 }
 
 .carousel-btn-right {
-	right: -35px;
+	right: clamp(-26px, -3vw, -35px);
 }
 
 .carousel-loading {
 	text-align: center;
-	padding: 40px 0;
-	font-size: 1.2rem;
+	padding: clamp(24px, 4vw, 40px) 0;
+	font-size: clamp(1rem, 1.6vw, 1.2rem);
 	opacity: 0.7;
+}
+
+@media (max-width: 600px) {
+	.carousel {
+		max-width: 100%;
+		margin: 24px auto;
+		padding-inline: clamp(12px, 6vw, 20px);
+	}
+
+	.carousel-title {
+		margin-bottom: 10px;
+		font-size: 1.3rem;
+	}
+
+	.carousel-inner {
+		padding: 6px;
+		border-radius: 8px;
+	}
+
+	.carousel-inner::before {
+		box-shadow: inset 0 8px 10px rgba(223, 214, 205, 0.7);
+		border-radius: 8px;
+	}
+
+	.carousel-track {
+		gap: 12px;
+		padding-block: 4px;
+	}
+
+	.carousel-btn {
+		width: 30px;
+		height: 30px;
+		box-shadow: 0 6px 6px rgba(223, 214, 205, 0.8);
+	}
+
+	.carousel-btn-left {
+		left: -18px;
+	}
+
+	.carousel-btn-right {
+		right: -18px;
+	}
+
+	.carousel-loading {
+		padding: 20px 0;
+		font-size: 1rem;
+	}
 }
