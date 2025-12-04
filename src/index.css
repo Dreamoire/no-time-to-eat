@@ -29,8 +29,22 @@ body {
 	padding: 0;
 	background-color: var(--bg-color);
 	font-family: var(--text-font);
+	position: relative;
+	min-height: 100vh;
 }
 
 h1 {
 	font-family: var(--title-font);
+}
+body::before {
+	content: "";
+	position: fixed;
+	inset: 0;
+	top: 20rem;
+	background-image: url("/src/assets/images/bg-all.jpg");
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	opacity: 0.4;
+	pointer-events: none;
 }
