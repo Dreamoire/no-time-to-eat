@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router";
+import { Form, Link, useLocation } from "react-router";
+import logo from "../assets/images/logo.png";
 import "../styles/NavBar.css";
 
 export default function NavBar() {
@@ -19,11 +20,7 @@ export default function NavBar() {
 	return (
 		<nav className="global-nav">
 			<Link to="/" className="nav-logo" onClick={handleCloseMenu}>
-				<img
-					src="/src/assets/images/logo.png"
-					alt="logo"
-					className="logo-image"
-				/>
+				<img src={logo} alt="No Time To Eat logo" className="logo-image" />
 			</Link>
 
 			<button
