@@ -9,7 +9,7 @@
 	display: flex;
 	flex-direction: column;
 	gap: 0.8rem;
-	max-width: 700px;
+	max-width: clamp(600px, 70vw, 800px);
 	margin: 0 auto;
 	padding: 1rem;
 	border-radius: 8px;
@@ -26,9 +26,8 @@
 .blog-separator {
 	height: 1px;
 	width: 100%;
-	max-width: 600px;
+	max-width: clamp(300px, 50vw, 700px);
 	margin: 0.2rem auto 0;
-
 	background-color: var(--bg-color-darkred);
 	opacity: 0.7;
 	border-radius: 1px;
@@ -140,4 +139,61 @@
 .article-author-link:hover {
 	color: var(--bg-color-brightred);
 	text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+	.blog-page {
+		padding: 1rem;
+		gap: 1.4rem;
+	}
+
+	.blog-article {
+		max-width: 100% !important;
+		margin: 0 auto !important;
+		padding: 0.75rem 0.9rem;
+		border-radius: 6px;
+		gap: 0.6rem;
+		box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12);
+	}
+
+	.blog-article:hover {
+		transform: none;
+		box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12);
+	}
+
+	.blog-separator {
+		max-width: clamp(250px, 40vw, 350px);
+		margin-top: 0.1rem;
+	}
+
+	.article-title {
+		font-size: clamp(1.2rem, 4.2vw, 1.4rem);
+		margin: 0.2rem 0 0.1rem;
+		padding: 0 0.25rem;
+	}
+
+	.article-meta {
+		font-size: 0.8rem;
+		flex-wrap: wrap;
+		gap: 0.15rem;
+	}
+
+	.article-intro,
+	.article-full-text {
+		font-size: clamp(0.95rem, 3.6vw, 1.05rem);
+		max-width: 100%;
+		margin-left: 0;
+		margin-right: 0;
+	}
+
+	.blog-image {
+		width: 100% !important;
+		border-radius: 6px;
+	}
+
+	.read-more-button {
+		padding: 0.35rem 0.8rem;
+		font-size: 0.85rem;
+		border-radius: 4px;
+	}
 }
